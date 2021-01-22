@@ -58,6 +58,7 @@ footer button:hover {
 }
 #modal span {
     color: #ffffff;
+    cursor: pointer;
     font-size: 100px;
     font-weight: bold;
     float: right;
