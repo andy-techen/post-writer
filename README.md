@@ -1,2 +1,2 @@
 # Post Writer
-Access app with mobile device on [site](https://andy-techen.github.io/post-writer/index.html).
+Access app with a mobile device at this [site](https://andy-techen.github.io/post-writer/index.html).
