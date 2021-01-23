@@ -1,0 +1,22 @@
+{
+  "name": "copy-writer",
+  "version": "1.0.0",
+  "description": "Access app with a mobile device at this [site](https://andy-techen.github.io/post-writer/index.html).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andy-techen/post-writer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andy-techen/post-writer/issues"
+  },
+  "homepage": "https://github.com/andy-techen/post-writer#readme",
+  "dependencies": {
+    "mongoose": "^5.11.13"
+  }
+}
