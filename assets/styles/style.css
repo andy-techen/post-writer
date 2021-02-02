@@ -1,5 +1,6 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    background-color: #a2bfc7;
+    font-family: 'Noto Sans TC', sans-serif;;
 }
 header {
     text-align: center;
@@ -11,12 +12,12 @@ footer {
     bottom: 0;
     left: 0;
     text-align: center;
-    padding-bottom: 50px;
+    padding-bottom: 60px;
     position: fixed;
     width: 100%;
 }
 footer button {
-    background-color: #666666;
+    background-color: #1e3140;
     border: none;
     border-radius: 50%;
     color: #ffffff;
@@ -27,24 +28,11 @@ footer button {
 footer button:hover {
     background-color: #000000;
 }
-
-.button-group {
-    bottom: 0;
-    left: 50%;
-    padding: 50px;
-    position: absolute;
-    transform: translateX(-50%);
-}
-.button-group button {
-    border: none;
-    border-radius: 20%;
-    font-size: 20px;
-    margin: 10px;
-    padding: 15px;
+img {
+    margin-top: 60px;
 }
 
 #modal {
-    background-color: rgba(0,0,0,0.4);
     bottom: 0;
     display: none;
     height: 100%;
@@ -56,34 +44,74 @@ footer button:hover {
     z-index: 1;
     animation: fadeIn 0.4s;
 }
+#modal button {
+    background-color: #1e3140;
+    border: none;
+    border-radius: 100px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    padding: 25px 105px 25px 110px;
+    margin: 25px;
+}
+#modal .button-group {
+    bottom: 0;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    margin-bottom: 50px;
+    width: 100%;
+}
+#modal h1 {
+    color: #7a8e95;
+    font-size: 70px;
+    letter-spacing: 15px;
+}
 #modal span {
     color: #ffffff;
     cursor: pointer;
-    font-size: 100px;
+    font-size: 80px;
     font-weight: bold;
-    float: right;
-    margin-right: 25px;
+    top: 40px;
+    right: 60px;
+    position: absolute;
+}
+#modal #add-item {
+    background-color: #dcaa89;
+    font-size: 60px;
+    padding: 0;
+    width: 90%;
 }
 .modal-content {
-    background-color: #fff45e;
+    background-color: #e5ded4;
     bottom: 0;
-    border-radius: 20% 20% 0 0;
-    height: 75%;
+    border-radius: 150px 150px 0 0;
+    height: 95%;
     left: 0;
     position: fixed;
     text-align: center;
     width: 100%;
     animation: slideIn 0.4s;
 }
-.modal-form {
-    padding-top: 50px;
-}
-.modal-form input {
+.input-group input, textarea {
     border: none;
-    font-size: 20px;
-    margin: 15px;
-    padding: 15px;
-    width: 50%;
+    border-radius: 30px;
+    font-size: 30px;
+    flex-grow: 1;
+    height: 70px;
+    margin: 10px 0 10px 25px;
+    padding-left: 20px;
+}
+.input-group textarea {
+    height: 100px;
+    padding-top: 20px;
+}
+.modal-form .input-group {
+    align-items: center;
+    display: flex;
+    font-size: 30px;
+    padding: 5px 50px;
 }
 
 @keyframes fadeIn {
