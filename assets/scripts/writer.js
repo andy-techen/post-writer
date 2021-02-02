@@ -1,21 +1,24 @@
-import mongoose from 'mongoose';
+// import express from 'express';
+// import mongoose from 'mongoose';
 
-mongoose.connect();
-const productsSchema = {
-    name: String,
-    price: Number,
-    rating: Number,
-    description: String
-};
-const Product = mongoose.model("Product", productsSchema);
+// app = express();
 
-const postSchema = {
-    store: String,
-    address: String,
-    time: String,
-    products: [productsSchema]
-}
-const Post = mongoose.model("List", postSchema);
+// mongoose.connect();
+// const productsSchema = {
+//     name: String,
+//     price: Number,
+//     rating: Number,
+//     description: String
+// };
+// const Product = mongoose.model("Product", productsSchema);
+
+// const postSchema = {
+//     store: String,
+//     address: String,
+//     time: String,
+//     products: [productsSchema]
+// }
+// const Post = mongoose.model("List", postSchema);
 
 $("#open-modal").click(() => {
     $("#modal").css({display: "block"})
@@ -23,10 +26,11 @@ $("#open-modal").click(() => {
 $("#close-modal").click(() => {
     $("#modal").css({display: "none"})
 })
-
 $("#save-post").click(() => {
     console.log("Post Saved");
+    document.execCommand('copy');  // save to clipboard
 })
-$("#reset-post").click(() => {
-    console.log("Post Reset");
-})
+
+// app.listen(3000, function(){
+//     console.log("Server is running on port 3000.");
+// })
