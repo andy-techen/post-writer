@@ -1,0 +1,9 @@
+{
+    "name": "Baobee Writer",
+    "short_name": "writer",
+    "lang": "en-US",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "white",
+    "theme_color": "white"
+  }
