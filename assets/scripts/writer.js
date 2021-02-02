@@ -37,7 +37,7 @@ $("#save-post").click(() => {
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/post-writer/sw.js', { scope: '/post-writer/' })
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then((registration) => {
                 // Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
