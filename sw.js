@@ -1,5 +1,5 @@
-const cacheName = 'baobee-pwa';
-const filesToCache = [
+var cacheName = 'baobee-pwa';
+var filesToCache = [
     '/',
     '/index.html',
     '/assets/styles/style.css',
