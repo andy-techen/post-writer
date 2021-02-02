@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Baobee Writer</title>
@@ -8,12 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="white"/>
 </head>
 
 <body>
     <header>
         <div>
-            <img src="assets/images/logo.jpg" width="480"></img>
+            <img src="assets/images/logo.jpg" width="155"></img>
         </div>
     </header>
     <div id="modal">
@@ -24,38 +28,38 @@
             </div>
             <div class="modal-form">
                 <form class="input-group">
-                    <p>地區 | 捷運站</p>
-                    <input name="area"/>
+                    <label>地區 | 捷運站</label>
+                    <input name="area" />
                 </form>
                 <form class="input-group">
-                    <p>店名</p>
-                    <input name="store"/>
+                    <label>店名</label>
+                    <input name="store" />
                 </form>
                 <div class="item-group"></div>
                 <button id="add-item">+</button>
                 <form class="input-group">
-                    <p>小劇場</p>
+                    <label>小劇場</label>
                     <textarea name="dialogue"></textarea>
                 </form>
                 <form class="input-group">
-                    <p>📍地址</p>
-                    <input name="address"/>
+                    <label>📍地址</label>
+                    <input name="address" />
                 </form>
                 <form class="input-group">
-                    <p>🚗交通</p>
-                    <input name="transportation"/>
+                    <label>🚗交通</label>
+                    <input name="transportation" />
                 </form>
                 <form class="input-group">
-                    <p>⏰營業時間</p>
-                    <input name="hours"/>
+                    <label>⏰營業時間</label>
+                    <input name="hours" />
                 </form>
                 <form class="input-group">
-                    <p>💬低消/服務費/限時</p>
-                    <input name="info"/>
+                    <label>💬低消/服務費/限時</label>
+                    <input name="info" />
                 </form>
                 <form class="input-group">
-                    <p>＃Hashtags</p>
-                    <input name="hours"/>
+                    <label>＃Hashtags</label>
+                    <input name="hours" />
                 </form>
             </div>
             <div class="button-group">
@@ -69,7 +73,9 @@
             <i class="fa fa-plus"></i>
         </button>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="assets/scripts/writer.js"></script>
 </body>
+
 </html>
