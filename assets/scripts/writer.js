@@ -21,10 +21,10 @@
 // const Post = mongoose.model("List", postSchema);
 
 $("#open-modal").click(() => {
-    $("#modal").css({display: "block"})
+    $("#modal").css({ display: "block" })
 })
 $("#close-modal").click(() => {
-    $("#modal").css({display: "none"})
+    $("#modal").css({ display: "none" })
 })
 $("#save-post").click(() => {
     console.log("Post Saved");
@@ -34,3 +34,12 @@ $("#save-post").click(() => {
 // app.listen(3000, function(){
 //     console.log("Server is running on port 3000.");
 // })
+
+window.onload = () => {
+    'use strict';
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('./sw.js');
+    }
+}
