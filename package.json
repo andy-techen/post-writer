@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/andy-techen/post-writer#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "mongoose": "^5.11.13"
   }
 }
