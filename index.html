@@ -6,29 +6,61 @@
     <title>Baobee Writer</title>
     <link rel="stylesheet" href="assets/styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header>
         <div>
-            <h1>Baobee Writer</h1>
+            <img src="assets/images/logo.jpg" width="480"></img>
         </div>
     </header>
     <div id="modal">
-        <span id="close-modal">&times;</span>
         <div class="modal-content">
-            <form class="modal-form">
-                <h1>Enter Store Info</h2>
-                <input
-                    name="store"
-                    placeholder="Store"/>
-                <input
-                    name="address"
-                    placeholder="Address"/>
-            </form>
+            <span id="close-modal">&times;</span>
+            <div>
+                <h1>NEW POST</h1>
+            </div>
+            <div class="modal-form">
+                <form class="input-group">
+                    <p>地區 | 捷運站</p>
+                    <input name="area"/>
+                </form>
+                <form class="input-group">
+                    <p>店名</p>
+                    <input name="store"/>
+                </form>
+                <div class="item-group"></div>
+                <button id="add-item">+</button>
+                <form class="input-group">
+                    <p>小劇場</p>
+                    <textarea name="dialogue"></textarea>
+                </form>
+                <form class="input-group">
+                    <p>📍地址</p>
+                    <input name="address"/>
+                </form>
+                <form class="input-group">
+                    <p>🚗交通</p>
+                    <input name="transportation"/>
+                </form>
+                <form class="input-group">
+                    <p>⏰營業時間</p>
+                    <input name="hours"/>
+                </form>
+                <form class="input-group">
+                    <p>💬低消/服務費/限時</p>
+                    <input name="info"/>
+                </form>
+                <form class="input-group">
+                    <p>＃Hashtags</p>
+                    <input name="hours"/>
+                </form>
+            </div>
             <div class="button-group">
-                <button id="save-post">Save Post</button>
-                <button id="reset-post">Reset</button>
+                <button id="show-post">PREVIEW</button>
+                <button id="save-post">SAVE</button>
             </div>
         </div>
     </div>
