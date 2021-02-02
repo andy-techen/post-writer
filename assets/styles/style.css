@@ -46,7 +46,7 @@ img {
     z-index: 1;
     animation: fadeIn 0.4s;
 }
-#modal button {
+#modal .button-group button {
     background-color: #1e3140;
     border: none;
     border-radius: 100px;
@@ -82,7 +82,7 @@ img {
 }
 #modal #add-item {
     background-color: #dcaa89;
-    font-size: 30px;
+    font-size: 25px;
     padding: 0;
     width: 345px;
 }
@@ -116,6 +116,12 @@ img {
     font-size: 14px;
     font-weight: 900;
     padding: 5px 15px;
+}
+.item-group {
+    background-color: #dcaa89;
+    border-radius: 20px;
+    margin: 5px 15px 0;
+    padding: 5px 0;
 }
 
 @keyframes fadeIn {

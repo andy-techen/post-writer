@@ -41,15 +41,15 @@ $("#save-post").click(() => {
 //     console.log("Server is running on port 3000.");
 // })
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
-            .then((registration) => {
-                // Registration was successful
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, (err) => {
-                // registration failed :(
-                console.log('ServiceWorker registration failed: ', err);
-            });
-    });
-}
+// if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker.register('/sw.js', { scope: '/' })
+//             .then((registration) => {
+//                 // Registration was successful
+//                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
+//             }, (err) => {
+//                 // registration failed :(
+//                 console.log('ServiceWorker registration failed: ', err);
+//             });
+//     });
+// }
