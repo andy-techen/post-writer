@@ -107,8 +107,8 @@ img {
     padding-left: 10px;
 }
 .input-group textarea {
-    height: 50px;
-    padding-top: 2px;
+    height: 60px;
+    padding-top: 5px;
 }
 .modal-form .input-group {
     align-items: center;

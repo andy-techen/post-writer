@@ -10,8 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="./manifest.json">
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />  
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="assets/images/152.png">
+    <meta name="Description" content="Tool for editing foodie posts on Instagram.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="white"/>
     <meta name="apple-mobile-web-app-capable" content="yes">  
@@ -42,7 +43,26 @@
                     <label>店名</label>
                     <input name="store" />
                 </form>
-                <div class="item-group"></div>
+                <div class="item-group">
+                    <form class="input-group">
+                        <label>品項</label>
+                        <input name="item-name" />
+                    </form>
+                    <form class="input-group">
+                        <label>價格</label>
+                        <input name="item-price" />
+                    </form>
+                    <form class="input-group">
+                        <label>評分</label>
+                        <button id="rating-bao">🍼</button>
+                        <button id="rating-bee">👃🏻</button>
+                        <input name="item-rating" />
+                    </form>
+                    <form class="input-group">
+                        <label>評語</label>
+                        <input name="item-review" />
+                    </form>
+                </div>
                 <button id="add-item">+</button>
                 <form class="input-group">
                     <label>小劇場</label>

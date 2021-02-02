@@ -19,6 +19,10 @@
 //     products: [productsSchema]
 // }
 // const Post = mongoose.model("List", postSchema);
+function addItem() {
+    const item = $("input-group").outerHTML();
+    console.log(item);
+}
 
 $("#open-modal").click(() => {
     $("#modal").css({ display: "block" })
@@ -26,6 +30,8 @@ $("#open-modal").click(() => {
 $("#close-modal").click(() => {
     $("#modal").css({ display: "none" })
 })
+
+$("#add-item").click(addItem);
 $("#save-post").click(() => {
     console.log("Post Saved");
     document.execCommand('copy');  // save to clipboard
