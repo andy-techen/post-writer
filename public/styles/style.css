@@ -97,6 +97,10 @@ img {
     width: 100%;
     animation: slideIn 0.4s;
 }
+.modal-form {
+    overflow: scroll;
+    height: 600px;
+}
 .input-group input, textarea {
     border: none;
     border-radius: 12px;
@@ -107,7 +111,7 @@ img {
     padding-left: 10px;
 }
 .input-group textarea {
-    height: 60px;
+    height: 45px;
     padding-top: 5px;
 }
 .modal-form .input-group {
@@ -123,9 +127,10 @@ img {
     margin: 5px 15px 0;
     padding: 5px 0;
 }
-.item-group button {
+#modal #rating-bao, #modal #rating-bee {
     font-size: 16px;
     padding: 10px 20px;
+    margin: 0 0 0 8px;
 }
 
 @keyframes fadeIn {
