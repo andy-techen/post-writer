@@ -1,6 +1,7 @@
 function addItem() {
-    const item = $("input-group").outerHTML();
+    const item = $(".item-group")[0].outerHTML;
     console.log(item);
+    $(".items-group").append(item);
 }
 
 $("#open-modal").click(() => {
