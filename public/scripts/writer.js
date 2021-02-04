@@ -4,13 +4,11 @@ function addItem() {
 }
 function getPost() {
     const postContent = {};
-    const inputs = $("input");
-    const textareas = $("textarea");
 
-    $.each(inputs, input => {
+    $("input").each((i, input) => {
         postContent[input.name] = input.value;
     });
-    $.each(textareas, textarea => {
+    $("textarea").each((i, textarea) => {
         postContent[textarea.name] = textarea.value;
     })
 
@@ -20,7 +18,7 @@ function copyPost() {
     document.execCommand('copy');  // save to clipboard
 }
 function addPost() {
-    
+
 }
 
 $("#open-modal").click(() => {
