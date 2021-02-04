@@ -7,10 +7,10 @@ function getPost() {
     const inputs = $("input");
     const textareas = $("textarea");
 
-    inputs.each(input => {
+    $.each(inputs, input => {
         postContent[input.name] = input.value;
     });
-    textareas.each(textarea => {
+    $.each(textareas, textarea => {
         postContent[textarea.name] = textarea.value;
     })
 
@@ -18,6 +18,9 @@ function getPost() {
 }
 function copyPost() {
     document.execCommand('copy');  // save to clipboard
+}
+function addPost() {
+    
 }
 
 $("#open-modal").click(() => {
