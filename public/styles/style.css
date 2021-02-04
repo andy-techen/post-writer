@@ -34,7 +34,8 @@ img {
     margin-top: 25px;
 }
 
-#modal {
+/* modal styles */
+.modal {
     bottom: 0;
     display: none;
     height: 100%;
@@ -46,7 +47,7 @@ img {
     z-index: 1;
     animation: fadeInBottom 0.4s;
 }
-#modal button {
+.modal button {
     background-color: #1e3140;
     border: none;
     border-radius: 100px;
@@ -57,7 +58,7 @@ img {
     padding: 10px 42px 10px 45px;
     margin: 8px;
 }
-#modal .button-group {
+.modal .button-group {
     bottom: 0;
     left: 50%;
     position: absolute;
@@ -65,13 +66,13 @@ img {
     margin-bottom: 20px;
     width: 100%;
 }
-#modal h1 {
+.modal h1 {
     color: #7a8e95;
     font-size: 30px;
     letter-spacing: 3px;
     margin-bottom: 10px;
 }
-#modal span {
+.modal span {
     color: #ffffff;
     cursor: pointer;
     font-size: 30px;
@@ -79,11 +80,11 @@ img {
     right: 15px;
     position: absolute;
 }
-#modal #previous-page {
+.modal #previous-page {
     right: auto;
     left: 15px;
 }
-#modal #add-item {
+.modal #add-item {
     background-color: #dcaa89;
     font-size: 20px;
     padding: 2px 0 0 0;
@@ -134,12 +135,21 @@ img {
     margin: 5px 15px 0;
     padding: 5px 0;
 }
-#modal .rating-bao, #modal .rating-bee {
+.modal .rating-bao, .modal .rating-bee {
     font-size: 16px;
     padding: 10px 20px;
     margin: 0 0 0 8px;
 }
 
+/* post page styles */
+.post-div {
+    background-color: #e5ded4;
+    border-radius: 35px;
+}
+
+/* preview page styles */
+
+/* animations */
 @keyframes fadeIn {
     from {opacity: 0} 
     to {opacity: 1}
