@@ -46,10 +46,10 @@ function addPost() {
 }
 
 $("#open-modal").click(() => {
-    $("#modal").css({ display: "block" })
+    $(".modal").css({ display: "block" })
 })
 $("#close-modal").click(() => {
-    $("#modal").css({ display: "none" })
+    $(".modal").css({ display: "none" })
 })
 
 $("#add-item").click(addItem);
