@@ -2,7 +2,7 @@ function addItem() {
     const item = $(".item-group")[0].outerHTML;
     $(".items-group").append(item);
 }
-function getPost() {
+function savePost() {
     const postObj = {};
 
     $("input").each((i, input) => {
@@ -29,8 +29,13 @@ function getPost() {
 
     return [postObj, postContent];
 }
-function copyPost() {
-    document.execCommand('copy');  // save to clipboard
+function copyPost(postContent) {
+    navigator.clipboard.writeText(postContent)
+        .then(() => {
+           console.log("copied to clipboard");
+        }, () => {
+            console.log("unable to copy to clipboard");
+        });
 }
 function addPost() {
     const postObj = getPost()[0];
@@ -61,12 +66,13 @@ $("#close-modal").click(() => {
 $("#add-item").click(addItem);
 
 $("#preview-post").click(() => {
-    const postContent = getPost()[1];
+    const postContent = savePost()[1];
     console.log(postContent);
 })
 $("#save-post").click(() => {
-    getPost();
+    const post = savePost()[1];
     addPost();
+    copyPost(post);
 })
 
 // if ('serviceWorker' in navigator) {
@@ -76,7 +82,7 @@ $("#save-post").click(() => {
 //                 // Registration was successful
 //                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
 //             }, (err) => {
-//                 // registration failed :(
+//                 // registration failed
 //                 console.log('ServiceWorker registration failed: ', err);
 //             });
 //     });
