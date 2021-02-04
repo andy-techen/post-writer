@@ -12,19 +12,19 @@ function getPost() {
         postObj[textarea.name] = textarea.value;
     })
 
-    const postContent = `👣${postObj[area]}\n
-    ｜${postObj[store]}｜\n
-    ${postObj[item1Name]} ${postObj[item1Price]}\n
-    🍼寶編請給分：${postObj[item1Rating]}\n
-    ${postObj[item1Review]}
+    const postContent = `👣${postObj["area"]}\n
+    ｜${postObj["store"]}｜\n
+    ${postObj["item1-name"]} ${postObj["item1-price"]}\n
+    🍼寶編請給分：${postObj["item1-rating"]}\n
+    ${postObj["item1-review"]}
     -
-    ${postObj[store]}\n
-    📍地址：${postObj[address]}\n
-    🚗交通：捷運中山站3號出口，步行約10分鐘\n
-    ⏰營業時間：${postObj[hours]}\n
-    💬低消/服務費/限時：${postObj[info]}\n
+    ${postObj["store"]}\n
+    📍地址：${postObj["address"]}\n
+    🚗交通：${postObj["transportation"]}\n
+    ⏰營業時間：${postObj["hours"]}\n
+    💬低消/服務費/限時：${postObj["info"]}\n
     -
-    🔎${postObj[hashtags]}\n
+    🔎${postObj["hashtags"]}\n
     `
 
     return [postObj, postContent];
@@ -37,12 +37,18 @@ function addPost() {
 
     const postDiv = `
     <div class="post-div">
-        <h3>👣${postObj[area]}</h3>
-        <h2>${postObj[store]}</h2>
-        <button class="copy-post">COPY</button>
-        <button id="del-post"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        <div>
+            <h4>👣${postObj["area"]}</h4>
+            <h2>${postObj["store"]}</h2>
+        </div>
+        <div>
+            <button class="copy-post">COPY</button>
+            <button id="del-post"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        </div>
     </div>
     `
+
+    $(".posts").append(postDiv);
 }
 
 $("#open-modal").click(() => {
@@ -60,6 +66,7 @@ $("#preview-post").click(() => {
 })
 $("#save-post").click(() => {
     getPost();
+    addPost();
 })
 
 // if ('serviceWorker' in navigator) {
