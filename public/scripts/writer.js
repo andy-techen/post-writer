@@ -39,7 +39,7 @@ function addPost() {
     <div class="post-div">
         <div>
             <h4>👣${postObj["area"]}</h4>
-            <h2>${postObj["store"]}</h2>
+            <h3>${postObj["store"]}</h3>
         </div>
         <div>
             <button class="copy-post">COPY</button>
