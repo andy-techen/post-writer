@@ -28,7 +28,8 @@
             <img alt="baobee" src="public/images/logo.jpg" width="155" height="155"></img>
         </div>
     </header>
-    <div id="modal">
+    <div class="posts"></div>
+    <div class="modal">
         <div class="modal-content">
             <span id="previous-page"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
             <span id="close-modal"><i class="fa fa-times" aria-hidden="true"></i></span>
@@ -48,21 +49,21 @@
                     <div class="item-group">
                         <form class="input-group">
                             <label>品項</label>
-                            <input name="item-name1" />
+                            <input name="item1-name" />
                         </form>
                         <form class="input-group">
                             <label>價格</label>
-                            <input name="item-price1" />
+                            <input name="item1-price" />
                         </form>
                         <form class="input-group">
                             <label>評分</label>
                             <button class="rating-bao">🍼</button>
                             <button class="rating-bee">👃🏻</button>
-                            <input type="range" name="item-rating1" min="1" max="5" step="0.25"/>
+                            <input type="range" name="item1-rating" min="1" max="5" step="0.25"/>
                         </form>
                         <form class="input-group">
                             <label>評語</label>
-                            <textarea name="item-review1"></textarea>
+                            <textarea name="item1-review"></textarea>
                         </form>
                     </div>
                 </div>
@@ -88,8 +89,8 @@
                     <input name="info" />
                 </form>
                 <form class="input-group">
-                    <label>＃Hashtags</label>
-                    <input name="hours" />
+                    <label>🔎Hashtags</label>
+                    <input name="hashtags"/>
                 </form>
             </div>
             <div class="modal-preview">
@@ -102,7 +103,7 @@
                 <button id="save-post">SAVE</button>
             </div>
             <div class="modal-preview">
-                <button id="copy-post">COPY</button>
+                <button class="copy-post">COPY</button>
             </div>
         </div>
     </div>
