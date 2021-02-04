@@ -1,14 +1,11 @@
-const inputs;
-const textareas;
-
 function addItem() {
     const item = $(".item-group")[0].outerHTML;
     $(".items-group").append(item);
 }
 function getPost() {
     const postContent = {};
-    inputs = $("input");
-    textareas = $("textarea");
+    const inputs = $("input");
+    const textareas = $("textarea");
 
     inputs.each(input => {
         postContent[input.name] = input.value;
