@@ -3,22 +3,46 @@ function addItem() {
     $(".items-group").append(item);
 }
 function getPost() {
-    const postContent = {};
+    const postObj = {};
 
     $("input").each((i, input) => {
-        postContent[input.name] = input.value;
+        postObj[input.name] = input.value;
     });
     $("textarea").each((i, textarea) => {
-        postContent[textarea.name] = textarea.value;
+        postObj[textarea.name] = textarea.value;
     })
 
-    return postContent;
+    const postContent = `👣${postObj[area]}\n
+    ｜${postObj[store]}｜\n
+    ${postObj[item1Name]} ${postObj[item1Price]}\n
+    🍼寶編請給分：${postObj[item1Rating]}\n
+    ${postObj[item1Review]}
+    -
+    ${postObj[store]}\n
+    📍地址：${postObj[address]}\n
+    🚗交通：捷運中山站3號出口，步行約10分鐘\n
+    ⏰營業時間：${postObj[hours]}\n
+    💬低消/服務費/限時：${postObj[info]}\n
+    -
+    🔎${postObj[hashtags]}\n
+    `
+
+    return [postObj, postContent];
 }
 function copyPost() {
     document.execCommand('copy');  // save to clipboard
 }
 function addPost() {
+    const postObj = getPost()[0];
 
+    const postDiv = `
+    <div class="post-div">
+        <h3>👣${postObj[area]}</h3>
+        <h2>${postObj[store]}</h2>
+        <button class="copy-post">COPY</button>
+        <button id="del-post"><i class="fa fa-trash" aria-hidden="true"></i></button>
+    </div>
+    `
 }
 
 $("#open-modal").click(() => {
@@ -29,10 +53,13 @@ $("#close-modal").click(() => {
 })
 
 $("#add-item").click(addItem);
-$("#save-post").click(() => {
-    const postContent = getPost();
+
+$("#preview-post").click(() => {
+    const postContent = getPost()[1];
     console.log(postContent);
-    copyPost();
+})
+$("#save-post").click(() => {
+    getPost();
 })
 
 // if ('serviceWorker' in navigator) {
