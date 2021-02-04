@@ -45,7 +45,6 @@ img {
     text-align: center;
     width: 100%;
     z-index: 1;
-    animation: fadeInBottom 0.4s;
 }
 .modal button {
     background-color: #1e3140;
@@ -76,13 +75,16 @@ img {
     color: #ffffff;
     cursor: pointer;
     font-size: 30px;
-    top: 20px;
+    top: 60px;
     right: 15px;
     position: absolute;
+    animation: slideInBottom 0.4s;
+    z-index: 1;
 }
 .modal #previous-page {
     right: auto;
     left: 15px;
+    display: none;
 }
 .modal #add-item {
     background-color: #dcaa89;
@@ -104,9 +106,6 @@ img {
 .modal-form {
     overflow: scroll;
     height: calc(100vh - 200px);
-}
-.modal-preview {
-    display: none;
 }
 .input-group input, textarea {
     border: none;
@@ -146,7 +145,8 @@ img {
     background-color: #e5ded4;
     border-radius: 35px;
     display: flex;
-    margin: 5px 20px;
+    margin: 6px 20px;
+    min-height: 60px;
     padding: 0 10px;
     justify-content: space-between;
     align-items: center;
@@ -172,19 +172,103 @@ img {
     padding: 12px 11px 12px 12px;
     letter-spacing: 1px;
 }
-.post-div #del-post {
+.post-div .del-post {
     background-color: #BB8758;
     padding: 12px 18px;
 }
 
 /* preview page styles */
+.modal-preview {
+    background-color: #e5ded4;
+    bottom: 0;
+    border-radius: 50px 50px 0 0;
+    display: none;
+    height: 88%;
+    left: 0;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+.preview-box {
+    background-color: #ffffff;
+    border-radius: 20px;
+    height: 80%;
+    margin: 30px 20px 40px 20px;
+}
+.preview-content {
+    padding: 25px;
+    text-align: left;
+    font-size: 12px;
+}
 
 /* animations */
-@keyframes fadeIn {
-    from {opacity: 0} 
-    to {opacity: 1}
-}
 @keyframes slideInBottom {
-    from {bottom: -300px; opacity: 0}
-    to {bottom: 0; opacity: 1}
+    0% {
+        bottom: -300px;
+        opacity: 0;
+    }
+    100% {
+        bottom: 0;
+        opacity: 1;
+    }
 }
+@-webkit-keyframes slideInBottom {
+    0% {
+        bottom: -300px;
+        opacity: 0;
+    }
+    100% {
+        bottom: 0;
+        opacity: 1;
+    }
+}
+/* @keyframes slideOutBottom {
+    0% {
+        bottom: 0;
+        opacity: 1
+    }
+    100% {
+        bottom: -300px;
+        opacity: 0;
+    }
+}
+@keyframes slideInLeft {
+    0% {
+        left: -300px;
+        opacity: 0;
+    }
+    100% {
+        left: 0;
+        opacity: 1;
+    }
+}
+@keyframes slideInRight {
+    0% {
+        right: -300px;
+        opacity: 0;
+    }
+    100% {
+        right: 0;
+        opacity: 1;
+    }
+}
+@keyframes slideOutLeft {
+    0% {
+        left: 0;
+        opacity: 1;
+    }
+    100% {
+        left: -300px;
+        opacity: 0;
+    }
+}
+@keyframes slideOutRight {
+    0% {
+        right: 0;
+        opacity: 1;
+    }
+    100% {
+        right: -300px;
+        opacity: 0;
+    }
+} */
