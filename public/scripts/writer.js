@@ -1,7 +1,30 @@
 // custom functions-----------------------------------------------------------------------------
 // add new item to post
+var itemCnt = 0;
 function addItem() {
-    const item = $(".item-group")[0].outerHTML;
+    itemCnt++;
+    const item = `
+    <div class="item-group" name="item${itemCnt}-group">
+        <form class="input-group">
+            <label>品項</label>
+            <input name="item${itemCnt}-name" />
+        </form>
+        <form class="input-group">
+            <label>價格</label>
+            <input name="item${itemCnt}-price" />
+        </form>
+        <form class="input-group">
+            <label>評分</label>
+            <button class="rating-bao">🍼</button>
+            <button class="rating-bee">👃🏻</button>
+            <input type="range" name="item${itemCnt}-rating" min="1" max="5" step="0.25"/>
+        </form>
+        <form class="input-group">
+            <label>評語</label>
+            <textarea name="item${itemCnt}-review"></textarea>
+        </form>
+    </div>
+    `
     $(".items-group").append(item);
 }
 
@@ -20,13 +43,21 @@ function generatePost() {
     $("textarea").each((i, textarea) => {
         postObj[textarea.name] = textarea.value;
     })
+    console.log(postObj);
+    
+    let itemsContent = "";
+    for (var i = 1; i <= itemCnt; i++) {
+        itemsContent += `
+        ${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
+        🍼寶編請給分：${postObj[`item${i}-rating`]}<br>
+        ${postObj[`item${i}-review`]}<br>
+        -<br>
+        `
+    }
 
     const postContent = `👣${postObj["area"]}<br>
     ｜${postObj["store"]}｜<br>
-    ${postObj["item1-name"]} ${postObj["item1-price"]}<br>
-    🍼寶編請給分：${postObj["item1-rating"]}<br>
-    ${postObj["item1-review"]}<br>
-    -<br>
+    ${itemsContent}
     ${postObj["dialogue"]}<br>
     -<br>
     ${postObj["store"]}<br>
@@ -82,6 +113,14 @@ function addPost() {
     $(".posts").append(postDiv);
 }
 
+// reset changes made to modal and itemCnt for new post
+function resetPost() {
+    itemCnt = 0;
+    $("input").val("");
+    $("textarea").val("");
+    $(".items-group").empty();
+}
+
 // delete post from .posts div and database
 function delPost(e) {
     $(e.target).closest('.post-div').remove();
@@ -89,31 +128,32 @@ function delPost(e) {
 
 // event listeners------------------------------------------------------------------------------
 $("#open-modal").click(() => {
-    $(".modal").fadeIn(400);
+    $(".modal").fadeIn(200);
 });
 $("#close-modal").click(() => {
-    $(".modal").fadeOut(400);
-    $(".modal-preview").fadeOut(400);
-    $("#previous-page").fadeOut(400);
+    $(".modal").fadeOut(200);
+    $(".modal-preview").fadeOut(200);
+    $("#previous-page").fadeOut(200);
 });
 
 $("#add-item").click(addItem);
 
 $("#preview-post").click(() => {
-    $(".modal-preview").fadeIn(400);
-    $("#previous-page").fadeIn(400);
+    $(".modal-preview").fadeIn(200);
+    $("#previous-page").fadeIn(200);
     previewPost();
 });
 $("#previous-page").click(() => {
-    $(".modal-preview").fadeOut(400);
-    $("#previous-page").fadeOut(400);
+    $(".modal-preview").fadeOut(200);
+    $("#previous-page").fadeOut(200);
 })
 
 $("#save-post").click(() => {
     addPost();
     const postContent = generatePost()[1];
     copyPost(postContent);
-    $(".modal").fadeOut(400);
+    $(".modal").fadeOut(200);
+    resetPost();
 });
 $("body").on('click', '.copy-post', () => {
     const postContent = generatePost()[1];
@@ -123,15 +163,15 @@ $(".posts").on('click', '.del-post', (e) => {
     delPost(e);
 });
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then((registration) => {
-                // Registration was successful
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, (err) => {
-                // registration failed
-                console.log('ServiceWorker registration failed: ', err);
-            });
-    });
-}
+// if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker.register('./sw.js')
+//             .then((registration) => {
+//                 // Registration was successful
+//                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
+//             }, (err) => {
+//                 // registration failed
+//                 console.log('ServiceWorker registration failed: ', err);
+//             });
+//     });
+// }
