@@ -1,12 +1,19 @@
 import express from 'express';
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
-app = express();
-app.use(express.static('public'));
+dotenv.config();
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const app = express();
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.get("/", (req, res) => {
-    res.sendFile(`${__dirname}/index.html`);
+    res.sendFile(__dirname + "/index.html");
 });
 
 // mongoose.connect();
