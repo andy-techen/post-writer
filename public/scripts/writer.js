@@ -30,7 +30,7 @@ function addItem() {
 
 // get location dynamically via Google Direction API
 function getLocation() {
-
+    console.log(process.env.GOOGLE_API_KEY);
 }
 
 // format post
@@ -85,7 +85,7 @@ function getPost() {
 
 // copy to clipboard (fetch from database?)
 function copyPost(postContent) {
-    navigator.clipboard.writeText(postContent)
+    navigator.clipboard.writeText(postContent.replace(/\<br\>/g, ""))
         .then(() => {
             console.log("copied to clipboard");
         }, () => {
