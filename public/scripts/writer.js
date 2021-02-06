@@ -15,9 +15,9 @@ function addItem() {
         </form>
         <form class="input-group">
             <label>評分</label>
-            <button class="rating-bao">🍼</button>
-            <button class="rating-bee">👃🏻</button>
-            <input type="range" name="item${itemCnt}-rating" min="1" max="5" step="0.25"/>
+            <label><input type="radio" value="🍼寶" name="item${itemCnt}-toggle" checked="checked" /><span>🍼</span></label>
+            <label><input type="radio" value="👃🏻鼻" name="item${itemCnt}-toggle" /><span>👃🏻</span></label>
+            <input type="range" name="item${itemCnt}-rating" min="1" max="5" step="0.25" />
         </form>
         <form class="input-group">
             <label>評語</label>
@@ -33,6 +33,13 @@ function getLocation() {
     console.log(process.env.GOOGLE_API_KEY);
 }
 
+// get rating label for item
+function triggerPressed(e) {
+    e.preventDefault();
+    console.log(e.target.style);
+    e.target.style.backgroudColor = '#7a8e95';
+}
+
 // format post
 function generatePost() {
     const postObj = {};
@@ -43,13 +50,14 @@ function generatePost() {
     $("textarea").each((i, textarea) => {
         postObj[textarea.name] = textarea.value;
     })
-    console.log(postObj);
-    
+
     let itemsContent = "";
     for (var i = 1; i <= itemCnt; i++) {
+        postObj[`item${i}-toggle`] = $(`input[name="item${i}-toggle"]:checked`).val();
+        
         itemsContent += `
         ${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
-        🍼寶編請給分：${postObj[`item${i}-rating`]}<br>
+        ${postObj[`item${i}-toggle`]}編請給分：${postObj[`item${i}-rating`]}<br>
         ${postObj[`item${i}-review`]}<br>
         -<br>
         `
@@ -94,9 +102,7 @@ function copyPost(postContent) {
 }
 
 // add new post to .posts div
-function addPost() {
-    const postObj = generatePost()[0];
-
+function addPost(postObj) {
     const postDiv = `
     <div class="post-div">
         <div>
@@ -137,6 +143,9 @@ $("#close-modal").click(() => {
 });
 
 $("#add-item").click(addItem);
+// $(".items-group").on('click', '.rating-bao, .rating-bee', (e) => {
+//     triggerPressed(e);
+// })
 
 $("#preview-post").click(() => {
     $(".modal-preview").fadeIn(200);
@@ -149,8 +158,8 @@ $("#previous-page").click(() => {
 })
 
 $("#save-post").click(() => {
-    addPost();
-    const postContent = generatePost()[1];
+    const [postObj, postContent] = generatePost();
+    addPost(postObj);
     copyPost(postContent);
     $(".modal").fadeOut(200);
     resetPost();
