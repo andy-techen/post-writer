@@ -57,8 +57,7 @@ function generatePost() {
     for (var i = 1; i <= itemCnt; i++) {
         postObj[`item${i}-toggle`] = $(`input[name="item${i}-toggle"]:checked`).val();
         
-        itemsContent += `
-        ${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
+        itemsContent += `${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
         ${postObj[`item${i}-toggle`]}編請給分：${postObj[`item${i}-rating`]}<br>
         ${postObj[`item${i}-review`]}<br>
         -<br>
@@ -76,7 +75,9 @@ function generatePost() {
     ⏰營業時間：${postObj["hours"]}<br>
     💬低消/服務費/限時：${postObj["info"]}<br>
     -<br>
-    🔎${postObj["hashtags"]}<br>
+    🔎${postObj["search"]}<br>
+    -<br>
+    #Hashtags：${postObj["hashtags"]}<br>
     `.replace(/^ {4}/gm, '');  // remove indention at start of line
 
     return [postObj, postContent];
@@ -184,15 +185,15 @@ $(".posts").on('click', '.del-post', (e) => {
     delPost(e);
 });
 
-// if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', () => {
-//         navigator.serviceWorker.register('./sw.js')
-//             .then((registration) => {
-//                 // Registration was successful
-//                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
-//             }, (err) => {
-//                 // registration failed
-//                 console.log('ServiceWorker registration failed: ', err);
-//             });
-//     });
-// }
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                // Registration was successful
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, (err) => {
+                // registration failed
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
