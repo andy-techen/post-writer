@@ -56,8 +56,8 @@ function generatePost() {
     let itemsContent = "";
     for (var i = 1; i <= itemCnt; i++) {
         postObj[`item${i}-toggle`] = $(`input[name="item${i}-toggle"]:checked`).val();
-        let item_moons = Math.floor(postObj[`item${i}-rating`]) * '🌕';
-        switch(postObj[`item${i}-rating`] % 1) {
+        let item_moons = '🌕'.repeat(Math.floor(postObj[`item${i}-rating`]));
+        switch (postObj[`item${i}-rating`] % 1) {
             case 0:
                 break;
             case 0.25:
@@ -70,8 +70,8 @@ function generatePost() {
                 item_moons += '🌖'
                 break;
         }
-        item_moons += (5 - Math.ceil(postObj[`item${i}-rating`])) * '🌑';
-        
+        item_moons += '🌑'.repeat((5 - Math.ceil(postObj[`item${i}-rating`])));
+
         itemsContent += `${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
         ${postObj[`item${i}-toggle`]}編請給分：${item_moons}<br>
         ${postObj[`item${i}-review`]}<br>
@@ -106,7 +106,7 @@ function previewPost() {
 
 // get post from database
 function getPost() {
-    
+
 }
 
 // copy to clipboard (fetch from database?)
@@ -200,15 +200,15 @@ $(".posts").on('click', '.del-post', (e) => {
     delPost(e);
 });
 
-// if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', () => {
-//         navigator.serviceWorker.register('./sw.js')
-//             .then((registration) => {
-//                 // Registration was successful
-//                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
-//             }, (err) => {
-//                 // registration failed
-//                 console.log('ServiceWorker registration failed: ', err);
-//             });
-//     });
-// }
+window.addEventListener('load', () => {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                // Registration was successful
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, (err) => {
+                // registration failed
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    }
+});
