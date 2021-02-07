@@ -111,6 +111,7 @@ img {
 .modal-form {
     overflow: scroll;
     height: calc(100vh - 200px);
+    -webkit-overflow-scrolling: touch;
 }
 .input-group input, textarea {
     border: none;
@@ -160,6 +161,7 @@ img {
 .posts {
     height: 510px;
     overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 .post-div {
     background-color: #e5ded4;
