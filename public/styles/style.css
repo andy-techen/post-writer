@@ -165,7 +165,7 @@ img {
     background-color: #e5ded4;
     border-radius: 35px;
     display: flex;
-    margin: 6px 20px;
+    margin: 8px 20px;
     min-height: 60px;
     padding: 0 10px;
     justify-content: space-between;
@@ -219,6 +219,21 @@ img {
     padding: 25px;
     text-align: left;
     font-size: 12px;
+}
+
+/* alert at bottom page */
+.alert {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-align: center;
+    z-index: 99;
+    position: relative;
+    margin: 20px;
+    padding: 15px;
+    display: none;
 }
 
 /* animations */
