@@ -62,7 +62,7 @@ function generatePost() {
         ${postObj[`item${i}-toggle`]}編請給分：${postObj[`item${i}-rating`]}<br>
         ${postObj[`item${i}-review`]}<br>
         -<br>
-        `
+        `.replace(/^ {4}/gm, '');
     }
 
     const postContent = `👣${postObj["area"]}<br>
