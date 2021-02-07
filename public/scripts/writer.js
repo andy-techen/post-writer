@@ -56,9 +56,24 @@ function generatePost() {
     let itemsContent = "";
     for (var i = 1; i <= itemCnt; i++) {
         postObj[`item${i}-toggle`] = $(`input[name="item${i}-toggle"]:checked`).val();
+        let item_moons = Math.floor(postObj[`item${i}-rating`]) * '🌕';
+        switch(postObj[`item${i}-rating`] % 1) {
+            case 0:
+                break;
+            case 0.25:
+                item_moons += '🌘';
+                break;
+            case 0.5:
+                item_moons += '🌗';
+                break;
+            case 0.75:
+                item_moons += '🌖'
+                break;
+        }
+        item_moons += (5 - Math.ceil(postObj[`item${i}-rating`])) * '🌑';
         
         itemsContent += `${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
-        ${postObj[`item${i}-toggle`]}編請給分：${postObj[`item${i}-rating`]}<br>
+        ${postObj[`item${i}-toggle`]}編請給分：${item_moons}<br>
         ${postObj[`item${i}-review`]}<br>
         -<br>
         `.replace(/^ {4}/gm, '');
@@ -187,7 +202,7 @@ $(".posts").on('click', '.del-post', (e) => {
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('./sw.js')
             .then((registration) => {
                 // Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
