@@ -17,19 +17,25 @@ app.get("/", (req, res) => {
 });
 
 // mongoose.connect();
-// const productsSchema = {
+// const itemSchema = {
 //     name: String,
 //     price: Number,
+//     toggle: String,
 //     rating: Number,
-//     description: String
+//     review: String
 // };
-// const Product = mongoose.model("Product", productsSchema);
+// const Item = mongoose.model("Item", itemSchema);
 
 // const postSchema = {
+//     area: String,
 //     store: String,
+//     items: [itemSchema],
+//     dialogue: String,
 //     address: String,
-//     time: String,
-//     products: [productsSchema]
+//     transit: String,
+//     hours: String, 
+//     info: String,
+//     hashtags: String
 // }
 // const Post = mongoose.model("List", postSchema);
 
