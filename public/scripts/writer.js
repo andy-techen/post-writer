@@ -1,5 +1,4 @@
 const database = firebase.database();
-var postCnt = 0;
 // custom functions-----------------------------------------------------------------------------
 // add new item to post
 var itemCnt = 0;
@@ -35,23 +34,22 @@ function getLocation() {
     console.log(process.env.GOOGLE_API_KEY);
 }
 
-// get rating label for item
-function triggerPressed(e) {
-    e.preventDefault();
-    console.log(e.target.style);
-    e.target.style.backgroudColor = '#7a8e95';
-}
-
 // format post
-function generatePost() {
-    const postObj = {};
+function generatePost(postObj = {}) {
+    // if empty, fill postObj with inputs and textareas from modal
+    if (Object.keys(postObj).length === 0) {
+        $("input").each((i, input) => {
+            postObj[input.name] = input.value;
+        });
+        $("textarea").each((i, textarea) => {
+            postObj[textarea.name] = textarea.value;
+        })
+    }
 
-    $("input").each((i, input) => {
-        postObj[input.name] = input.value;
-    });
-    $("textarea").each((i, textarea) => {
-        postObj[textarea.name] = textarea.value;
-    })
+    const itemKeys = Object.keys(postObj)
+        .filter((k) => k.startsWith("item"))
+        .map(k => parseInt(k.match(/[0-9 ]/)));  // extract item index
+    const itemCnt = Math.max(...itemKeys);
 
     let itemsContent = "";
     for (var i = 1; i <= itemCnt; i++) {
@@ -75,13 +73,12 @@ function generatePost() {
         itemsContent += `${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
         ${postObj[`item${i}-toggle`]}編請給分：${item_moons}<br>
         ${postObj[`item${i}-review`]}<br>
-        -<br>
-        `.replace(/^ {4}/gm, '');
+        -`.replace(/^ {4}/gm, '');
     }
 
     const postContent = `👣${postObj["area"]}<br>
     ｜${postObj["store"]}｜<br>
-    ${itemsContent}
+    ${itemsContent}<br>
     ${postObj["dialogue"]}<br>
     -<br>
     ${postObj["store"]}<br>
@@ -92,7 +89,7 @@ function generatePost() {
     -<br>
     🔎${postObj["search"]}<br>
     -<br>
-    #Hashtags：${postObj["hashtags"]}<br>
+    ${postObj["hashtags"]}
     `.replace(/^ {4}/gm, '');  // remove indention at start of line
 
     return [postObj, postContent];
@@ -105,8 +102,14 @@ function previewPost() {
 }
 
 // get post from database
-function getPost() {
-
+function getPost(targetPost) {
+    return database.ref('/').child('posts')
+        .once('value')
+        .then((snap) => {
+            const postObj = snap.val()[targetPost];
+            console.log(postObj);
+            return postObj;
+        });
 }
 
 // copy to clipboard (fetch from database?)
@@ -121,8 +124,12 @@ function copyPost(postContent) {
 
 // add new post to .posts div
 function addPost(postObj) {
+    // postCnt++;
+    // postObj["post-id"] = `post${postCnt}`;
+    const postId = database.ref('/').child('posts').push().key;
+
     const postDiv = `
-    <div class="post-div">
+    <div class="post-div" name="${postId}">
         <div>
             <h4>👣${postObj["area"]}</h4>
             <h3>${postObj["store"]}</h3>
@@ -133,15 +140,15 @@ function addPost(postObj) {
         </div>
     </div>
     `
-
     $(".posts").append(postDiv);
 
-    database.ref('/').update(postObj);
+    let updates = {};
+    updates['/posts/' + postId] = postObj;
+    database.ref('/').update(updates);
 }
 
 // reset changes made to modal and itemCnt for new post
 function resetPost() {
-    itemCnt = 0;
     $("input").val("");
     $("textarea").val("");
     $(".items-group").empty();
@@ -171,9 +178,6 @@ $("#close-modal").click(() => {
 });
 
 $("#add-item").click(addItem);
-// $(".items-group").on('click', '.rating-bao, .rating-bee', (e) => {
-//     triggerPressed(e);
-// })
 
 $("#preview-post").click(() => {
     $(".modal-preview").fadeIn(200);
@@ -192,9 +196,18 @@ $("#save-post").click(() => {
     $(".modal").fadeOut(200);
     resetPost();
 });
-$("body").on('click', '.copy-post', () => {
+$(".modal").on('click', '.copy-post', () => {
     const postContent = generatePost()[1];
     copyPost(postContent);
+});
+$(".posts").on('click', '.copy-post', (e) => {
+    const targetPost = $(e.target).closest('.post-div').attr("name");
+    console.log(targetPost);
+    getPost(targetPost)
+        .then((postObj) => {
+            const postContent = generatePost(postObj)[1];
+            copyPost(postContent);
+        });
 });
 $(".posts").on('click', '.del-post', (e) => {
     delPost(e);
