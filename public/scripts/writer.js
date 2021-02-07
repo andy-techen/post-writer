@@ -1,3 +1,5 @@
+const database = firebase.database();
+var postCnt = 0;
 // custom functions-----------------------------------------------------------------------------
 // add new item to post
 var itemCnt = 0;
@@ -70,12 +72,12 @@ function generatePost() {
     -<br>
     ${postObj["store"]}<br>
     📍地址：${postObj["address"]}<br>
-    🚗交通：${postObj["transportation"]}<br>
+    🚗交通：${postObj["transit"]}<br>
     ⏰營業時間：${postObj["hours"]}<br>
     💬低消/服務費/限時：${postObj["info"]}<br>
     -<br>
     🔎${postObj["hashtags"]}<br>
-    `
+    `.replace(/^ {4}/gm, '');  // remove indention at start of line
 
     return [postObj, postContent];
 }
@@ -88,16 +90,16 @@ function previewPost() {
 
 // get post from database
 function getPost() {
-
+    
 }
 
 // copy to clipboard (fetch from database?)
 function copyPost(postContent) {
     navigator.clipboard.writeText(postContent.replace(/\<br\>/g, ""))
         .then(() => {
-            console.log("copied to clipboard");
+            showAlert("COPIED TO CLIPBOARD");
         }, () => {
-            console.log("unable to copy to clipboard");
+            showAlert("UNABLE TO COPY");
         });
 }
 
@@ -117,6 +119,8 @@ function addPost(postObj) {
     `
 
     $(".posts").append(postDiv);
+
+    database.ref('/').update(postObj);
 }
 
 // reset changes made to modal and itemCnt for new post
@@ -130,6 +134,14 @@ function resetPost() {
 // delete post from .posts div and database
 function delPost(e) {
     $(e.target).closest('.post-div').remove();
+    confirm("🥺ARE YOU SURE🥺");
+}
+
+// show alert on top
+function showAlert(message) {
+    const alert = $('.alert');
+    alert.text(message);
+    alert.fadeIn(200).delay(1000).fadeOut(200);
 }
 
 // event listeners------------------------------------------------------------------------------
