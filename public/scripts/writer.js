@@ -1,32 +1,33 @@
 const database = firebase.database();
 // custom functions-----------------------------------------------------------------------------
 // add new item to post
-var itemCnt = 0;
-function addItem() {
-    itemCnt++;
-    const item = `
-    <div class="item-group" name="item${itemCnt}-group">
-        <form class="input-group">
-            <label>品項</label>
-            <input name="item${itemCnt}-name" />
-        </form>
-        <form class="input-group">
-            <label>價格</label>
-            <input name="item${itemCnt}-price" />
-        </form>
-        <form class="input-group">
-            <label>評分</label>
-            <label><input type="radio" value="🍼寶" name="item${itemCnt}-toggle" checked="checked" /><span>🍼</span></label>
-            <label><input type="radio" value="👃🏻鼻" name="item${itemCnt}-toggle" /><span>👃🏻</span></label>
-            <input type="range" name="item${itemCnt}-rating" min="1" max="5" step="0.25" />
-        </form>
-        <form class="input-group">
-            <label>評語</label>
-            <textarea name="item${itemCnt}-review"></textarea>
-        </form>
-    </div>
-    `
-    $(".items-group").append(item);
+var itemCnt = 1;
+function addItem(items = 1) {
+    for (var i = itemCnt; i < itemCnt + items; i++) {
+        const item = `
+        <div class="item-group" name="item${i}-group">
+            <form class="input-group">
+                <label>品項</label>
+                <input name="item${i}-name" />
+            </form>
+            <form class="input-group">
+                <label>價格</label>
+                <input name="item${i}-price" />
+            </form>
+            <form class="input-group">
+                <label>評分</label>
+                <label><input type="radio" value="🍼寶" name="item${i}-toggle" checked="checked" /><span>🍼</span></label>
+                <label><input type="radio" value="👃🏻鼻" name="item${i}-toggle" /><span>👃🏻</span></label>
+                <input type="range" name="item${i}-rating" min="1" max="5" step="0.25" />
+            </form>
+            <form class="input-group">
+                <label>評語</label>
+                <textarea name="item${i}-review"></textarea>
+            </form>
+        </div>
+        `
+        $(".items-group").append(item);
+    }
 }
 
 // get location dynamically via Google Direction API
@@ -49,10 +50,10 @@ function generatePost(postObj = {}) {
     const itemKeys = Object.keys(postObj)
         .filter((k) => k.startsWith("item"))
         .map(k => parseInt(k.match(/[0-9 ]/)));  // extract item index
-    const itemCnt = Math.max(...itemKeys);
+    const items = Math.max(...itemKeys);
 
     let itemsContent = "";
-    for (var i = 1; i <= itemCnt; i++) {
+    for (var i = 1; i <= items; i++) {
         postObj[`item${i}-toggle`] = $(`input[name="item${i}-toggle"]:checked`).val();
         let item_moons = '🌕'.repeat(Math.floor(postObj[`item${i}-rating`]));
         switch (postObj[`item${i}-rating`] % 1) {
@@ -73,7 +74,8 @@ function generatePost(postObj = {}) {
         itemsContent += `${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
         ${postObj[`item${i}-toggle`]}編請給分：${item_moons}<br>
         ${postObj[`item${i}-review`]}<br>
-        -`.replace(/^ {4}/gm, '');
+        -
+        `.replace(/^ {4}/gm, '');
     }
 
     const postContent = `👣${postObj["area"]}<br>
@@ -81,7 +83,7 @@ function generatePost(postObj = {}) {
     ${itemsContent}<br>
     ${postObj["dialogue"]}<br>
     -<br>
-    ${postObj["store"]}<br>
+    ${postObj["store-full"]}<br>
     📍地址：${postObj["address"]}<br>
     🚗交通：${postObj["transit"]}<br>
     ⏰營業時間：${postObj["hours"]}<br>
@@ -102,13 +104,11 @@ function previewPost() {
 }
 
 // get post from database
-function getPost(targetPost) {
-    return database.ref('/').child('posts')
+function getPost(targetPost = "") {
+    return database.ref(`/posts/${targetPost}`)
         .once('value')
         .then((snap) => {
-            const postObj = snap.val()[targetPost];
-            console.log(postObj);
-            return postObj;
+            return snap.val();
         });
 }
 
@@ -123,10 +123,13 @@ function copyPost(postContent) {
 }
 
 // add new post to .posts div
-function addPost(postObj) {
-    // postCnt++;
-    // postObj["post-id"] = `post${postCnt}`;
-    const postId = database.ref('/').child('posts').push().key;
+function addPost(postObj, postId = "") {
+    if (postId === "") {
+        postId = database.ref('/').child('posts').push().key;
+        let updates = {};
+        updates['/posts/' + postId] = postObj;
+        database.ref('/').update(updates);
+    }
 
     const postDiv = `
     <div class="post-div" name="${postId}">
@@ -141,23 +144,40 @@ function addPost(postObj) {
     </div>
     `
     $(".posts").append(postDiv);
-
-    let updates = {};
-    updates['/posts/' + postId] = postObj;
-    database.ref('/').update(updates);
 }
 
 // reset changes made to modal and itemCnt for new post
 function resetPost() {
+    itemCnt = 0;
     $("input").val("");
     $("textarea").val("");
     $(".items-group").empty();
 }
 
+// load in post content when clicked
+function loadPost(postId) {
+    getPost(postId)
+        .then((postObj) => {
+            console.log(postObj);
+            const itemKeys = Object.keys(postObj)
+                .filter((k) => k.startsWith("item"))
+                .map(k => parseInt(k.match(/[0-9 ]/)));  // extract item index
+            const items = Math.max(...itemKeys);
+            addItem(items);
+            itemCnt = items + 1;
+
+            $.each(postObj, (k, v) => {
+                $(`[name=${k}]`).val(v);
+            })
+        });
+}
+
 // delete post from .posts div and database
-function delPost(e) {
-    $(e.target).closest('.post-div').remove();
+function delPost(target) {
+    const targetPost = target.attr("name");
     confirm("🥺ARE YOU SURE🥺");
+    target.remove();
+    database.ref(`/posts/${targetPost}`).remove();
 }
 
 // show alert on top
@@ -172,12 +192,16 @@ $("#open-modal").click(() => {
     $(".modal").fadeIn(200);
 });
 $("#close-modal").click(() => {
+    resetPost();
     $(".modal").fadeOut(200);
     $(".modal-preview").fadeOut(200);
     $("#previous-page").fadeOut(200);
 });
 
-$("#add-item").click(addItem);
+$("#add-item").click(() => {
+    addItem();
+    itemCnt++;
+});
 
 $("#preview-post").click(() => {
     $(".modal-preview").fadeIn(200);
@@ -200,21 +224,38 @@ $(".modal").on('click', '.copy-post', () => {
     const postContent = generatePost()[1];
     copyPost(postContent);
 });
+$(".posts").on('click', '.post-div', (e) => {
+    const target = $(e.target);
+    if (!target.is('.copy-post, .del-post, i')) {
+        $(".modal").fadeIn(200);
+        loadPost(target.attr("name"));
+    }
+})
 $(".posts").on('click', '.copy-post', (e) => {
-    const targetPost = $(e.target).closest('.post-div').attr("name");
-    console.log(targetPost);
-    getPost(targetPost)
+    const target = $(e.target).closest('.post-div');
+    getPost(target.attr("name"))
         .then((postObj) => {
+            console.log(postObj);
             const postContent = generatePost(postObj)[1];
             copyPost(postContent);
         });
 });
 $(".posts").on('click', '.del-post', (e) => {
-    delPost(e);
+    const target = $(e.target).closest('.post-div');
+    delPost(target);
 });
 
-window.addEventListener('load', () => {
-    if ('serviceWorker' in navigator) {
+$(window).on('load', () => {
+    getPost()
+        .then((postObjs) => {
+            $.each(postObjs, (i, postObj) => {
+                addPost(postObj, i);
+            })
+        });
+})
+
+if ('serviceWorker' in navigator) {
+    $(window).on('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
                 // Registration was successful
@@ -223,5 +264,5 @@ window.addEventListener('load', () => {
                 // registration failed
                 console.log('ServiceWorker registration failed: ', err);
             });
-    }
-});
+    });
+}
