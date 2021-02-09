@@ -31,8 +31,15 @@ function addItem(items = 1) {
 }
 
 // get location dynamically via Google Direction API
-function getLocation() {
-    console.log(process.env.GOOGLE_API_KEY);
+function getLocation(destination) {
+    const key = "AIzaSyBaZDZY1QF3La9PZqbb4xVChjKj8ZOLGHk";
+    const URL = `https://maps.googleapis.com/maps/api/directions/json?key=${key}&
+    origin=25.03426886736304, 121.52742373015636&destination=${destination}&
+    mode=transit&transit_mode=subway&transit_routing_preference=less_walking`
+
+    $.get(URL, (data) => {
+        console.log(data['routes']);
+    }, 'jsonp');
 }
 
 // format post
@@ -108,6 +115,7 @@ function getPost(targetPost = "") {
     return database.ref(`/posts/${targetPost}`)
         .once('value')
         .then((snap) => {
+            console.log(snap.val());
             return snap.val();
         });
 }
@@ -148,7 +156,7 @@ function addPost(postObj, postId = "") {
 
 // reset changes made to modal and itemCnt for new post
 function resetPost() {
-    itemCnt = 0;
+    itemCnt = 1;
     $("input").val("");
     $("textarea").val("");
     $(".items-group").empty();
@@ -175,9 +183,11 @@ function loadPost(postId) {
 // delete post from .posts div and database
 function delPost(target) {
     const targetPost = target.attr("name");
-    confirm("🥺ARE YOU SURE🥺");
-    target.remove();
-    database.ref(`/posts/${targetPost}`).remove();
+    let del = confirm("🥺ARE YOU SURE🥺");
+    if (del) {
+        target.remove();
+        database.ref(`/posts/${targetPost}`).remove();
+    }
 }
 
 // show alert on top
@@ -188,12 +198,27 @@ function showAlert(message) {
 }
 
 // event listeners------------------------------------------------------------------------------
+// modal page
 $("#open-modal").click(() => {
     $(".modal").fadeIn(200);
 });
+
 $("#close-modal").click(() => {
-    resetPost();
-    $(".modal").fadeOut(200);
+    let close = true;
+    const formVals = [...$('input'), ...$('textarea')].map(form => form.value);
+    // check if forms are empty
+    if (formVals.some(val => val !== "")) {
+        close = confirm("😨CHANGES WILL NOT BE SAVED😨");
+    }
+    if (close) {
+        resetPost();
+        $(".modal").fadeOut(200);
+        $(".modal-preview").fadeOut(200);
+        $("#previous-page").fadeOut(200);
+    }
+});
+
+$("#previous-page").click(() => {
     $(".modal-preview").fadeOut(200);
     $("#previous-page").fadeOut(200);
 });
@@ -208,10 +233,6 @@ $("#preview-post").click(() => {
     $("#previous-page").fadeIn(200);
     previewPost();
 });
-$("#previous-page").click(() => {
-    $(".modal-preview").fadeOut(200);
-    $("#previous-page").fadeOut(200);
-})
 
 $("#save-post").click(() => {
     const [postObj, postContent] = generatePost();
@@ -220,17 +241,27 @@ $("#save-post").click(() => {
     $(".modal").fadeOut(200);
     resetPost();
 });
-$(".modal").on('click', '.copy-post', () => {
+
+$(".copy-post").click(() => {
     const postContent = generatePost()[1];
     copyPost(postContent);
 });
+
+// posts page (event delegation)
 $(".posts").on('click', '.post-div', (e) => {
     const target = $(e.target);
     if (!target.is('.copy-post, .del-post, i')) {
         $(".modal").fadeIn(200);
-        loadPost(target.attr("name"));
+        const postId = target.attr("name");
+        console.log(postId);
+        loadPost(postId);
+        $("#save-post").click(() => {   // when saved, remove original record from database and create new record
+            database.ref(`/posts/${postId}`).remove();
+            target.remove();
+        })
     }
-})
+});
+
 $(".posts").on('click', '.copy-post', (e) => {
     const target = $(e.target).closest('.post-div');
     getPost(target.attr("name"))
@@ -240,11 +271,13 @@ $(".posts").on('click', '.copy-post', (e) => {
             copyPost(postContent);
         });
 });
+
 $(".posts").on('click', '.del-post', (e) => {
     const target = $(e.target).closest('.post-div');
     delPost(target);
 });
 
+// on window load
 $(window).on('load', () => {
     getPost()
         .then((postObjs) => {
@@ -252,7 +285,7 @@ $(window).on('load', () => {
                 addPost(postObj, i);
             })
         });
-})
+});
 
 if ('serviceWorker' in navigator) {
     $(window).on('load', () => {
