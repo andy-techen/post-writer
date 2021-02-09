@@ -31,7 +31,7 @@ function addItem(items = 1) {
 
 // get location dynamically via Google Direction API
 function getLocation(destination) {
-    const key = "AIzaSyBaZDZY1QF3La9PZqbb4xVChjKj8ZOLGHk";
+    const key = process.env.GOOGLE_API_KEY;
     const URL = `https://maps.googleapis.com/maps/api/directions/json?key=${key}&
     origin=25.03426886736304, 121.52742373015636&destination=${destination}&
     mode=transit&transit_mode=subway&transit_routing_preference=less_walking`
