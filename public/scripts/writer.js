@@ -1,4 +1,3 @@
-const database = firebase.database();
 // custom functions-----------------------------------------------------------------------------
 // add new item to post
 var itemCnt = 1;
