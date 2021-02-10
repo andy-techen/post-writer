@@ -39,17 +39,28 @@
             <div class="modal-form">
                 <form class="input-group">
                     <label>地區 | 捷運站</label>
-                    <input name="area" />
+                    <input name="area" value=" x " />
                 </form>
                 <form class="input-group">
                     <label>店名</label>
                     <input name="store" />
                 </form>
                 <div class="items-group"></div>
+                <datalist id="ticks">
+                    <option value="1"></option>
+                    <option value="1.5"></option>
+                    <option value="2"></option>
+                    <option value="2.5"></option>
+                    <option value="3"></option>
+                    <option value="3.5"></option>
+                    <option value="4"></option>
+                    <option value="4.5"></option>
+                    <option value="5"></option>
+                </datalist>
                 <button id="add-item" aria-label="add-item"><i class="fa fa-plus" aria-hidden="true"></i></button>
                 <form class="input-group">
                     <label>小劇場</label>
-                    <textarea name="dialogue"></textarea>
+                    <textarea name="dialogue">🍼：</textarea>
                 </form>
                 <form class="input-group">
                     <label>店名</label>
@@ -69,15 +80,15 @@
                 </form>
                 <form class="input-group">
                     <label>💬低消/服務費/限時</label>
-                    <input name="info" />
+                    <input name="info" value="無/無/無" />
                 </form>
                 <form class="input-group">
                     <label>🔎標籤</label>
-                    <input name="search" />
+                    <input name="labels" />
                 </form>
                 <form class="input-group">
                     <label>#Hashtags</label>
-                    <textarea name="hashtags"></textarea>
+                    <textarea name="hashtags">#popyummy#popdaily#4foodieforfoodie#foodie</textarea>
                 </form>
             </div>
             <div class="button-group">
@@ -106,21 +117,21 @@
     <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-database.js"></script>
 
     <script>
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    var firebaseConfig = {
-        apiKey: process.env.FIREBASE_API_KEY,
-        authDomain: "baobee-writer.firebaseapp.com",
-        projectId: "baobee-writer",
-        databaseURL: "https://baobee-writer-default-rtdb.firebaseio.com/",
-        storageBucket: "baobee-writer.appspot.com",
-        messagingSenderId: "88921642029",
-        appId: "1:88921642029:web:541687b5bdabd6035454a4",
-        measurementId: "G-3KE1XW7ZXW"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyBY6RaeiPQ7-wYTFp0rwIj55of-06Bqgh0",  //process.env.FIREBASE_API_KEY,
+            authDomain: "baobee-writer.firebaseapp.com",
+            projectId: "baobee-writer",
+            databaseURL: "https://baobee-writer-default-rtdb.firebaseio.com/",
+            storageBucket: "baobee-writer.appspot.com",
+            messagingSenderId: "88921642029",
+            appId: "1:88921642029:web:541687b5bdabd6035454a4",
+            measurementId: "G-3KE1XW7ZXW"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
     </script>
 
     <script src="public/scripts/writer.js"></script>
