@@ -1,7 +1,7 @@
 const cacheName = 'baobee-pwa';
 const filesToCache = [
-    '/',
-    '/index.html',
+    './',
+    'index.html',
     'public/styles/style.css',
     'public/scripts/writer.js'
 ];
