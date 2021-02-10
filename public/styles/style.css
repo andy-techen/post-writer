@@ -34,9 +34,7 @@ footer button {
     line-height: 1;
     font-size: 4rem;
     font-weight: 900;
-    width: 6rem;
-    height: 6rem;
-    -webkit-appearance: none;
+    padding: 1rem 1.4rem 0.8rem;
 }
 footer button:hover {
     background-color: #000000;
@@ -174,7 +172,7 @@ img {
     font-size: 1.4rem;
     text-align: center;
     position: initial;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.8rem;
     margin: 0 0.2rem 0 0;
 }
 .input-range {
@@ -242,21 +240,27 @@ img {
     bottom: 0;
     border-radius: 50px 50px 0 0;
     display: none;
-    height: 88%;
+    height: calc(95% - 6rem);
     left: 0;
     position: fixed;
     text-align: center;
     width: 100%;
 }
+.modal-preview .copy-post {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
 .preview-box {
     background-color: #ffffff;
     border-radius: 20px;
-    height: 80%;
-    margin: 3rem 2rem 4rem 2rem;
+    height: calc(95% - 10rem);
+    margin: 3rem 1.5rem 0;
     overflow-y: scroll;
 }
 .preview-content {
-    padding: 0.8rem 2rem;
+    padding: 0.3rem 1.5rem;
     text-align: left;
     font-size: 1.2rem;
     overflow-wrap: break-word;
