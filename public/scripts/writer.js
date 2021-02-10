@@ -213,7 +213,7 @@ function showAlert(message) {
 // modal page
 $("#open-modal").click(() => {
     $(".modal").fadeIn(200);
-    $('input[name="area"]').focus();
+    // $('input[name="area"]').focus();  // a bit user unfriendly on mobile
 });
 
 $("#close-modal").click(() => {
@@ -304,7 +304,7 @@ $(".posts").on('click', '.post-div', (e) => {
     const target = $(e.target).closest('.post-div');
     if (!$(e.target).is('.copy-post, .del-post, i')) {
         $(".modal").fadeIn(200);
-        $('input[name="area"]').focus();
+        // $('input[name="area"]').focus();
         const postId = target.attr("name");
         loadPost(postId);
         $("#save-post").click(() => {   // when saved, remove original record from database and create new record
@@ -345,7 +345,7 @@ $(window).on('load', () => {
 
 if ('serviceWorker' in navigator) {
     $(window).on('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('sw.js')
             .then((registration) => {
                 // Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);

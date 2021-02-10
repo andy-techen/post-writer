@@ -1,9 +1,10 @@
 const cacheName = 'baobee-pwa';
 const filesToCache = [
-    '/',
-    '/index.html',
+    './',
+    'index.html',
     'public/styles/style.css',
-    'public/scripts/writer.js'
+    'public/scripts/writer.js',
+    'public/images/logo.jpg'
 ];
 
 /* Start the service worker and cache all of the app's content */
