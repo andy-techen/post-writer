@@ -345,7 +345,7 @@ $(window).on('load', () => {
 
 if ('serviceWorker' in navigator) {
     $(window).on('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('sw.js')
             .then((registration) => {
                 // Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);

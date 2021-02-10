@@ -1,6 +1,7 @@
 {
     "name": "Baobee Writer",
-    "short_name": "baobee",
+    "short_name": "Baobee",
+    "description": "A tool for editing foodie posts on Instagram",
     "icons": [{
         "src": "public/images/128.png",
           "sizes": "128x128",
@@ -28,7 +29,8 @@
           "purpose": "any maskable"
         }],
     "lang": "en-US",
-    "start_url": "./index.html",
+    "scope": ".",
+    "start_url": "index.html",
     "display": "standalone",
     "background_color": "white",
     "theme_color": "white"
