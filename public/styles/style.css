@@ -1,3 +1,6 @@
+html {
+    font-size: 10px;
+}
 body {
     background-color: #a2bfc7;
     font-family: 'Noto Sans TC', sans-serif;
@@ -19,7 +22,7 @@ footer {
     bottom: 0;
     left: 0;
     text-align: center;
-    padding-bottom: 25px;
+    padding-bottom: 2.5rem;
     position: fixed;
     width: 100%;
 }
@@ -29,16 +32,17 @@ footer button {
     border-radius: 50%;
     color: #ffffff;
     line-height: 1;
-    font-size: 40px;
+    font-size: 4rem;
     font-weight: 900;
-    width: 4rem;
-    height: 4rem;
+    width: 6rem;
+    height: 6rem;
+    -webkit-appearance: none;
 }
 footer button:hover {
     background-color: #000000;
 }
 img {
-    margin-top: 25px;
+    margin-top: 2.5rem;
 }
 
 /* modal styles */
@@ -58,46 +62,49 @@ img {
     border: none;
     border-radius: 100px;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: 700;
-    letter-spacing: 3px;
-    padding: 10px 42px 10px 45px;
-    margin: 8px;
+    letter-spacing: 0.3rem;
+    padding: 1rem 12% 1rem calc(12% + 0.3rem);
+    margin: 0.8rem 0;
 }
 .modal .button-group {
     bottom: 0;
     left: 50%;
+    display: flex;
+    justify-content: space-around;
     position: absolute;
     transform: translateX(-50%);
-    margin-bottom: 20px;
-    width: 100%;
+    margin-bottom: 2rem;
+    width: calc(100vw - 3rem);
 }
 .modal h1 {
     color: #7a8e95;
-    font-size: 30px;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
+    font-size: 3rem;
+    letter-spacing: 0.3rem;
+    margin-bottom: 1rem;
 }
 .modal span {
     color: #ffffff;
     cursor: pointer;
-    font-size: 30px;
-    top: 60px;
-    right: 15px;
+    font-size: 3rem;
+    top: calc(5% + 2rem);
+    right: 1.5rem;
     position: absolute;
     animation: slideInBottom 0.4s;
     z-index: 1;
 }
 .modal #previous-page {
     right: auto;
-    left: 15px;
+    left: 1.5rem;
     display: none;
 }
 .modal #add-item {
     background-color: #dcaa89;
-    font-size: 20px;
-    padding: 2px 0 0 0;
-    width: calc(100vw - 30px);
+    font-size: 2rem;
+    padding: 0.2rem 0 0 0;
+    margin-top: 0.5rem;
+    width: calc(100vw - 3rem);
 }
 .modal-content {
     background-color: #e5ded4;
@@ -113,35 +120,46 @@ img {
 .modal-form {
     overflow: scroll;
     overflow-x: hidden;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 20rem);
     -webkit-overflow-scrolling: touch;
 }
 .input-group input, textarea {
     border: none;
     border-radius: 12px;
-    font-size: 11px;
+    font-size: 1.1rem;
     font-family: inherit;
     flex-grow: 1;
-    height: 25px;
-    margin: 2px 0 2px 10px;
-    padding: 0 10px;
+    height: 2.5rem;
+    margin: 0.2rem 0 0.2rem 0.8rem;
+    min-width: 0;
+    padding: 0 1rem;
 }
 .input-group textarea {
-    height: 50px;
-    padding: 5px 10px;
+    height: 5rem;
+    padding: 0.5rem 1rem;
+}
+.input-group label {
+    flex-shrink: 0;
 }
 .modal-form .input-group {
     align-items: center;
     display: flex;
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: 900;
-    padding: 5px 15px;
+    padding: 0.5rem 1.5rem;
 }
 .item-group {
     background-color: #dcaa89;
     border-radius: 20px;
-    margin: 5px 15px 0;
-    padding: 5px 0;
+    margin: 0.5rem 1.5rem 0;
+    padding: 0.5rem 0;
+}
+.item-group .toggle-group {
+    display: flex;
+    margin-left: 0.8rem;
+}
+.item-group .input-group {
+    padding: 0.5rem 1rem;
 }
 .item-group input[type="radio"] {
     position: absolute;
@@ -153,11 +171,11 @@ img {
 .item-group label span {
     background-color: #b5c0c4;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 1.4rem;
     text-align: center;
     position: initial;
-    padding: 5px 15px;
-    margin: 0 0 0 10px;
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem 0 0;
 }
 .input-range {
     display: flex;
@@ -166,17 +184,18 @@ img {
 }
 .input-range input {
     padding-right: 0;
+    margin-left: 0.1rem;
 }
 .input-range output {
-    font-size: 10px;
+    font-size: 1rem;
     font-weight: 400;
-    min-width: 20px;
-    padding-left: 3px;
+    min-width: 2rem;
+    margin-left: 0.1rem;
 }
 
 /* post page styles */
 .posts {
-    height: 510px;
+    height: calc(100vh - 28rem);
     overflow: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -185,9 +204,9 @@ img {
     background-color: #e5ded4;
     border-radius: 35px;
     display: flex;
-    margin: 8px 20px;
-    min-height: 60px;
-    padding: 0 10px;
+    margin: 0.8rem 2rem;
+    min-height: 6rem;
+    padding: 0 1rem;
     justify-content: space-between;
     align-items: center;
 }
@@ -196,25 +215,25 @@ img {
     border-radius: 30px;
     color: #ffffff;
     cursor: pointer;
-    font-size: 18px;
-    margin: 2px;
+    font-size: 1.8rem;
+    margin: 0.2rem;
 }
 .post-div h4 {
     color: #848484;
     font-weight: 400;
-    margin: 12px 0 0 20px;
+    margin: 1.2rem 0 0 2rem;
 }
 .post-div h3 {
-    margin: 0 0 12px 20px;
+    margin: 0 0 1.2rem 2rem;
 }
 .post-div .copy-post {
     background-color: #7A8E95;
-    padding: 12px 11px 12px 12px;
-    letter-spacing: 1px;
+    padding: 1.2rem 1.1rem 1.2rem 1.2rem;
+    letter-spacing: 0.1rem;
 }
 .post-div .del-post {
     background-color: #BB8758;
-    padding: 12px 18px;
+    padding: 1.2rem 1.8rem;
 }
 
 /* preview page styles */
@@ -233,13 +252,13 @@ img {
     background-color: #ffffff;
     border-radius: 20px;
     height: 80%;
-    margin: 30px 20px 40px 20px;
+    margin: 3rem 2rem 4rem 2rem;
     overflow-y: scroll;
 }
 .preview-content {
-    padding: 8px 20px;
+    padding: 0.8rem 2rem;
     text-align: left;
-    font-size: 12px;
+    font-size: 1.2rem;
     overflow-wrap: break-word;
     white-space: pre-wrap;
 }
@@ -248,14 +267,14 @@ img {
 .alert {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: 900;
     letter-spacing: 1px;
     text-align: center;
     z-index: 99;
     position: relative;
-    margin: 20px;
-    padding: 15px;
+    margin: 2rem;
+    padding: 1.5rem;
     display: none;
 }
 

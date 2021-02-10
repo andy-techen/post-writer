@@ -27,8 +27,10 @@ function addItem(items = 1) {
             </form>
             <form class="input-group">
                 <label>評分</label>
-                <label><input type="radio" value="🍼寶" name="item${i}-toggle" checked="checked" /><span>🍼</span></label>
-                <label><input type="radio" value="👃🏻鼻" name="item${i}-toggle" /><span>👃🏻</span></label>
+                <div class="toggle-group">
+                    <label><input type="radio" value="🍼寶" name="item${i}-toggle" checked="checked" /><span>🍼</span></label>
+                    <label><input type="radio" value="👃🏻鼻" name="item${i}-toggle" /><span>👃🏻</span></label>
+                </div>
                 <div class="input-range">
                     <input type="range" name="item${i}-rating" min="1" max="5" step="0.25"
                     list="ticks" oninput="this.nextElementSibling.value = this.value" />
