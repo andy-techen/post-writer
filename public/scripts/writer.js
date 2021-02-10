@@ -1,3 +1,15 @@
+const loc = {
+    '台北': 'taipei', '新北': 'taipei', '新竹': 'hsinchu',
+    '台中': 'taichung', '台南': 'tainan', '高雄': 'kaoshiung', '宜蘭': 'yilan'
+}
+
+// update currentSnapshot on value change in firebase db
+var currentSnap = null;
+database.ref(`/posts/`)
+    .on('value', (snap) => {
+        currentSnap = snap;
+    });
+
 // custom functions-----------------------------------------------------------------------------
 // add new item to post
 var itemCnt = 1;
@@ -11,13 +23,17 @@ function addItem(items = 1) {
             </form>
             <form class="input-group">
                 <label>價格</label>
-                <input name="item${i}-price" />
+                <input type="number" name="item${i}-price" />
             </form>
             <form class="input-group">
                 <label>評分</label>
                 <label><input type="radio" value="🍼寶" name="item${i}-toggle" checked="checked" /><span>🍼</span></label>
                 <label><input type="radio" value="👃🏻鼻" name="item${i}-toggle" /><span>👃🏻</span></label>
-                <input type="range" name="item${i}-rating" min="1" max="5" step="0.25" />
+                <div class="input-range">
+                    <input type="range" name="item${i}-rating" min="1" max="5" step="0.25"
+                    list="ticks" oninput="this.nextElementSibling.value = this.value" />
+                    <output>3</output>
+                </div>                 
             </form>
             <form class="input-group">
                 <label>評語</label>
@@ -30,16 +46,17 @@ function addItem(items = 1) {
 }
 
 // get location dynamically via Google Direction API
-function getLocation(destination) {
-    const key = process.env.GOOGLE_API_KEY;
-    const URL = `https://maps.googleapis.com/maps/api/directions/json?key=${key}&
-    origin=25.03426886736304, 121.52742373015636&destination=${destination}&
-    mode=transit&transit_mode=subway&transit_routing_preference=less_walking`
+// function getLocation(destination) {
+//     const key = process.env.DIRECTIONS_API_KEY;
+//     const origin = process.env.ORIGIN;
+//     const URL = `https://maps.googleapis.com/maps/api/directions/json?key=${key}&
+//     origin=${origin}&destination=${destination}&
+//     mode=transit&transit_mode=subway&transit_routing_preference=less_walking`
 
-    $.get(URL, (data) => {
-        console.log(data['routes']);
-    }, 'jsonp');
-}
+//     $.get(URL, (data) => {
+//         console.log(data['routes']);
+//     }, 'jsonp');
+// }
 
 // format post
 function generatePost(postObj = {}) {
@@ -77,26 +94,25 @@ function generatePost(postObj = {}) {
         }
         item_moons += '🌑'.repeat((5 - Math.ceil(postObj[`item${i}-rating`])));
 
-        itemsContent += `${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}<br>
-        ${postObj[`item${i}-toggle`]}編請給分：${item_moons}<br>
-        ${postObj[`item${i}-review`]}<br>
+        itemsContent += `${postObj[`item${i}-name`]} $${postObj[`item${i}-price`]}
+        ${postObj[`item${i}-toggle`]}編請給分：${item_moons}
+        ${postObj[`item${i}-review`]}
         -
         `.replace(/^ {4}/gm, '');
     }
 
-    const postContent = `👣${postObj["area"]}<br>
-    ｜${postObj["store"]}｜<br>
-    ${itemsContent}<br>
-    ${postObj["dialogue"]}<br>
-    -<br>
-    ${postObj["store-full"]}<br>
-    📍地址：${postObj["address"]}<br>
-    🚗交通：${postObj["transit"]}<br>
-    ⏰營業時間：${postObj["hours"]}<br>
-    💬低消/服務費/限時：${postObj["info"]}<br>
-    -<br>
-    🔎${postObj["search"]}<br>
-    -<br>
+    const postContent = `👣${postObj["area"]}
+    ｜${postObj["store"]}｜
+    ${itemsContent}${postObj["dialogue"]}
+    -
+    ${postObj["store-full"]}
+    📍地址：${postObj["address"]}
+    🚗交通：${postObj["transit"]}
+    ⏰營業時間：${postObj["hours"]}
+    💬低消/服務費/限時：${postObj["info"]}
+    -
+    🔎${postObj["labels"]}
+    -
     ${postObj["hashtags"]}
     `.replace(/^ {4}/gm, '');  // remove indention at start of line
 
@@ -110,18 +126,14 @@ function previewPost() {
 }
 
 // get post from database
-function getPost(targetPost = "") {
-    return database.ref(`/posts/${targetPost}`)
-        .once('value')
-        .then((snap) => {
-            console.log(snap.val());
-            return snap.val();
-        });
+function getPost(postId) {
+    const postObjs = currentSnap.val();
+    return postObjs[postId];
 }
 
 // copy to clipboard (fetch from database?)
 function copyPost(postContent) {
-    navigator.clipboard.writeText(postContent.replace(/\<br\>/g, ""))
+    navigator.clipboard.writeText(postContent)
         .then(() => {
             showAlert("COPIED TO CLIPBOARD");
         }, () => {
@@ -156,36 +168,37 @@ function addPost(postObj, postId = "") {
 // reset changes made to modal and itemCnt for new post
 function resetPost() {
     itemCnt = 1;
-    $("input").val("");
-    $("textarea").val("");
+    $('input, textarea').each((i, form) => form.value = form.defaultValue);
     $(".items-group").empty();
 }
 
 // load in post content when clicked
 function loadPost(postId) {
-    getPost(postId)
-        .then((postObj) => {
-            console.log(postObj);
-            const itemKeys = Object.keys(postObj)
-                .filter((k) => k.startsWith("item"))
-                .map(k => parseInt(k.match(/[0-9 ]/)));  // extract item index
-            const items = Math.max(...itemKeys);
-            addItem(items);
-            itemCnt = items + 1;
+    const postObj = getPost(postId);
+    const itemKeys = Object.keys(postObj)
+        .filter((k) => k.startsWith("item"))
+        .map(k => parseInt(k.match(/[0-9 ]/)));  // extract item index
 
-            $.each(postObj, (k, v) => {
-                $(`[name=${k}]`).val(v);
-            })
-        });
+    const items = Math.max(...itemKeys);
+    addItem(items);
+    itemCnt = items + 1;
+
+    $.each(postObj, (k, v) => {
+        if (k.includes("toggle")) {
+            $(`[name=${k}][value=${v}]`).prop('checked', true);
+        } else {
+            $(`[name=${k}]`).val(v);
+        }
+    });
 }
 
 // delete post from .posts div and database
 function delPost(target) {
-    const targetPost = target.attr("name");
+    const postId = target.attr("name");
     let del = confirm("🥺ARE YOU SURE🥺");
     if (del) {
         target.remove();
-        database.ref(`/posts/${targetPost}`).remove();
+        database.ref(`/posts/${postId}`).remove();
     }
 }
 
@@ -200,6 +213,7 @@ function showAlert(message) {
 // modal page
 $("#open-modal").click(() => {
     $(".modal").fadeIn(200);
+    $('input[name="area"]').focus();
 });
 
 $("#close-modal").click(() => {
@@ -246,13 +260,52 @@ $(".copy-post").click(() => {
     copyPost(postContent);
 });
 
+// input listeners
+// update store-name related inputs
+$('input[name="store"]').change((e) => {
+    const store = $(e.target).val();
+    let storeCond = store;
+    if (store !== "") {
+        storeCond = store.replace(/\s+/g, '');
+    }
+    $('input[name="store-full"]').val(store);
+    $('input[name="labels"]').val((i, val) => {
+        return val + `#寶鼻吃${storeCond}#${storeCond}`;
+    });
+});
+
+$('input[name="area"]').change((e) => {
+    const inputVal = $(e.target).val();
+    if (!inputVal.includes(" x ")) {
+        $(e.target).val(" x ");
+    }
+    const inputArr = inputVal.split(" x ");
+    const area = inputArr[0];
+    const station = inputArr[1];
+    if (area !== (undefined || "") && station !== (undefined || "")) {
+        $('input[name="labels"]').val((i, val) => {
+            return `#寶鼻吃${area}#寶鼻吃${station}` + val;
+        });
+        $('textarea[name="hashtags"]').val(() => {
+            return (
+                `#${area}美食#${station}美食` +
+                `#${loc[area]}food#${loc[area]}eats#${loc[area]}foodie` +
+                $('textarea[name="hashtags"]').prop("defaultValue")
+            );
+        });
+        if (area === "台北") {
+            $('input[name="transit"]').val(`捷運${station}號出口，步行約分鐘`);
+        }
+    }
+})
+
 // posts page (event delegation)
 $(".posts").on('click', '.post-div', (e) => {
-    const target = $(e.target);
-    if (!target.is('.copy-post, .del-post, i')) {
+    const target = $(e.target).closest('.post-div');
+    if (!$(e.target).is('.copy-post, .del-post, i')) {
         $(".modal").fadeIn(200);
+        $('input[name="area"]').focus();
         const postId = target.attr("name");
-        console.log(postId);
         loadPost(postId);
         $("#save-post").click(() => {   // when saved, remove original record from database and create new record
             database.ref(`/posts/${postId}`).remove();
@@ -262,13 +315,11 @@ $(".posts").on('click', '.post-div', (e) => {
 });
 
 $(".posts").on('click', '.copy-post', (e) => {
-    const target = $(e.target).closest('.post-div');
-    getPost(target.attr("name"))
-        .then((postObj) => {
-            console.log(postObj);
-            const postContent = generatePost(postObj)[1];
-            copyPost(postContent);
-        });
+    const postId = $(e.target).closest('.post-div').attr("name");
+    const postObj = getPost(postId);
+
+    const postContent = generatePost(postObj)[1];
+    copyPost(postContent);
 });
 
 $(".posts").on('click', '.del-post', (e) => {
@@ -278,11 +329,17 @@ $(".posts").on('click', '.del-post', (e) => {
 
 // on window load
 $(window).on('load', () => {
-    getPost()
+    database.ref(`/posts/`)
+        .once('value')
+        .then((snap) => {
+            currentSnap = snap;
+            return currentSnap.val();
+        })
         .then((postObjs) => {
+            console.log(postObjs);
             $.each(postObjs, (i, postObj) => {
                 addPost(postObj, i);
-            })
+            });
         });
 });
 
