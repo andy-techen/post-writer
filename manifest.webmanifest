@@ -32,6 +32,6 @@
     "scope": ".",
     "start_url": "index.html",
     "display": "standalone",
-    "background_color": "white",
-    "theme_color": "#a2bfc7"
+    "background_color": "#A2BFC7",
+    "theme_color": "#A2BFC7"
 }
