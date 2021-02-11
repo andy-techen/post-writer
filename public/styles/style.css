@@ -90,6 +90,7 @@ img {
     right: 1.5rem;
     position: absolute;
     animation: slideInBottom 0.4s;
+    -webkit-animation: slideInBottom 0.4s;
     z-index: 1;
 }
 .modal #previous-page {
@@ -114,6 +115,7 @@ img {
     text-align: center;
     width: 100%;
     animation: slideInBottom 0.4s;
+    -webkit-animation: slideInBottom 0.4s;
 }
 .modal-form {
     overflow: scroll;

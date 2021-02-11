@@ -23,7 +23,7 @@ function addItem(items = 1) {
             </form>
             <form class="input-group">
                 <label>價格</label>
-                <input type="number" name="item${i}-price" />
+                <input name="item${i}-price" />
             </form>
             <form class="input-group">
                 <label>評分</label>
