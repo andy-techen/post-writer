@@ -33,7 +33,7 @@ function addItem(items = 1) {
                 </div>
                 <div class="input-range">
                     <input type="range" name="item${i}-rating" min="1" max="5" step="0.25"
-                    list="ticks" oninput="this.nextElementSibling.value = this.value" />
+                    list="ticks" oninput="this.nextElementSibling = this.value"/>
                     <output>3</output>
                 </div>                 
             </form>
@@ -45,6 +45,10 @@ function addItem(items = 1) {
         `
         $(".items-group").append(item);
     }
+}
+
+function recountItems() {
+    $(".item-group")
 }
 
 // get location dynamically via Google Direction API
@@ -192,6 +196,10 @@ function loadPost(postId) {
             $(`[name=${k}]`).val(v);
         }
     });
+
+    $("output").each((i, output) => {
+        output.value = output.previousElementSibling.value;
+    })
 }
 
 // delete post from .posts div and database
