@@ -74,7 +74,7 @@ img {
     position: absolute;
     transform: translateX(-50%);
     margin-bottom: 2rem;
-    width: calc(100vw - 3rem);
+    width: calc(100% - 3rem);
 }
 .modal h1 {
     color: #7a8e95;
@@ -103,7 +103,7 @@ img {
     font-size: 2rem;
     padding: 0.2rem 0 0 0;
     margin-top: 0.5rem;
-    width: calc(100vw - 3rem);
+    width: calc(100% - 3rem);
 }
 .modal-content {
     background-color: #e5ded4;
@@ -122,6 +122,20 @@ img {
     overflow-x: hidden;
     height: calc(95% - 14rem);
     -webkit-overflow-scrolling: touch;
+}
+.item-container {
+    display: flex;
+    align-items: center;
+    width: 120%;
+    transition: transform 0.5s ease-out;
+}
+.item-container .item-group {
+    width: 100%;
+}
+.item-container .del-div {
+    display: flex;
+    width: 20%;
+    margin: 0 1.5rem 0 0.5rem;
 }
 .input-group input, textarea {
     border: none;

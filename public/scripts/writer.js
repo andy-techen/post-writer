@@ -16,31 +16,36 @@ var itemCnt = 1;
 function addItem(items = 1) {
     for (var i = itemCnt; i < itemCnt + items; i++) {
         const item = `
-        <div class="item-group" name="item${i}-group">
-            <form class="input-group">
-                <label>品項</label>
-                <input name="item${i}-name" />
-            </form>
-            <form class="input-group">
-                <label>價格</label>
-                <input name="item${i}-price" />
-            </form>
-            <form class="input-group">
-                <label>評分</label>
-                <div class="toggle-group">
-                    <label><input type="radio" value="🍼寶" name="item${i}-toggle" checked="checked" /><span>🍼</span></label>
-                    <label><input type="radio" value="👃🏻鼻" name="item${i}-toggle" /><span>👃🏻</span></label>
-                </div>
-                <div class="input-range">
-                    <input type="range" name="item${i}-rating" min="1" max="5" step="0.25"
-                    list="ticks" oninput="this.nextElementSibling = this.value"/>
-                    <output>3</output>
-                </div>                 
-            </form>
-            <form class="input-group">
-                <label>評語</label>
-                <textarea name="item${i}-review"></textarea>
-            </form>
+        <div class="item-container">
+            <div class="item-group" name="item${i}-group">
+                <form class="input-group">
+                    <label>品項</label>
+                    <input name="item${i}-name" />
+                </form>
+                <form class="input-group">
+                    <label>價格</label>
+                    <input name="item${i}-price" />
+                </form>
+                <form class="input-group">
+                    <label>評分</label>
+                    <div class="toggle-group">
+                        <label><input type="radio" value="🍼寶" name="item${i}-toggle" checked="checked" /><span>🍼</span></label>
+                        <label><input type="radio" value="👃🏻鼻" name="item${i}-toggle" /><span>👃🏻</span></label>
+                    </div>
+                    <div class="input-range">
+                        <input type="range" name="item${i}-rating" min="1" max="5" step="0.25"
+                        list="ticks" oninput="this.nextElementSibling = this.value"/>
+                        <output>3</output>
+                    </div>                 
+                </form>
+                <form class="input-group">
+                    <label>評語</label>
+                    <textarea name="item${i}-review"></textarea>
+                </form>
+            </div>
+            <div class="del-div">
+                <button name="del-item"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            </div>
         </div>
         `
         $(".items-group").append(item);
@@ -49,6 +54,10 @@ function addItem(items = 1) {
 
 function recountItems() {
     $(".item-group")
+}
+
+function delItem(itemName) {
+    console.log($(`[name=${itemName}]`));
 }
 
 // get location dynamically via Google Direction API
@@ -249,6 +258,28 @@ $("#previous-page").click(() => {
 $("#add-item").click(() => {
     addItem();
     itemCnt++;
+});
+
+// dealing with finger swipes
+$(".items-group").on('touchstart', '.item-container', (e) => {
+    if (!$(e.target).is('input[type="radio"]')) {
+        let startX = e.touches[0].screenX;
+    }
+});
+
+$(".items-group").on('touchmove', '.item-container', (e) => {
+    const targetItem = $(e.target).closest(".item-container");
+    const swipeDispl = e.touches[0].screenX - startX;
+    let swipePct = 0;
+    if (swipeDispl < 0) {
+        swipePct = Math.min((swipeDispl / screen.width) * 100, 10);
+    }
+    targetItem.css("transform", `translateX(${swipePct}%)`);
+});
+
+$(".items-group").on('click', '.del-item', (e) => {
+    const targetItem = $(e.target).closest("item-container");
+    console.log(targetItem);
 });
 
 $("#preview-post").click(() => {
