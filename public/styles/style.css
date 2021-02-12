@@ -141,6 +141,8 @@ img {
 }
 .item-container .del-div button {
     background-color: #BB8758;
+    font-size: 2rem;
+    padding: 1rem 15% 1rem calc(15% + 0.3rem);
 }
 .input-group input, textarea {
     border: none;
