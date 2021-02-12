@@ -294,7 +294,7 @@ $(".items-group").on('touchmove', '.item-container', (e) => {
 $(".items-group").on('touchend', '.item-container', (e) => {
     const targetItem = $(e.target).closest(".item-container");
     const swipePct = parseInt(targetItem.css("transform").replace(/[^\d]/g, ""));
-    if (swipePct < -4) {
+    if (swipePct < -2) {
         targetItem.css("transform", `translateX(calc(-20% + 1rem))`);
     } else {
         targetItem.css("transform", `translateX(0)`);
