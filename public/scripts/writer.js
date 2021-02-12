@@ -296,8 +296,6 @@ $(".items-group").on('touchend', '.item-container', (e) => {
     const swipePct = parseInt(targetItem.css("transform").replace(/[^\d]/g, ""));
     if (swipePct < -2) {
         targetItem.css("transform", `translateX(calc(-20% + 1rem))`);
-    } else {
-        targetItem.css("transform", `translateX(0)`);
     }
 });
 

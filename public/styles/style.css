@@ -139,6 +139,9 @@ img {
     width: calc(20% - 2rem);
     margin: 0 1.5rem 0 0.5rem;
 }
+.item-container .del-div button {
+    background-color: #BB8758;
+}
 .input-group input, textarea {
     border: none;
     border-radius: 12px;
