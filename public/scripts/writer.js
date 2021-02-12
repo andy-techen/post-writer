@@ -17,7 +17,7 @@ function addItem(items = 1) {
     for (var i = itemCnt; i < itemCnt + items; i++) {
         const item = `
         <div class="item-container">
-            <div class="item-group" name="item${i}-group">
+            <div class="item-group">
                 <form class="input-group">
                     <label>品項</label>
                     <input name="item${i}-name" />
@@ -34,7 +34,7 @@ function addItem(items = 1) {
                     </div>
                     <div class="input-range">
                         <input type="range" name="item${i}-rating" min="1" max="5" step="0.25"
-                        list="ticks" oninput="this.nextElementSibling = this.value"/>
+                        list="ticks" oninput="this.nextElementSibling.value = this.value"/>
                         <output>3</output>
                     </div>                 
                 </form>
@@ -44,7 +44,7 @@ function addItem(items = 1) {
                 </form>
             </div>
             <div class="del-div">
-                <button name="del-item"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                <button class="del-item"><i class="fa fa-trash" aria-hidden="true"></i></button>
             </div>
         </div>
         `
@@ -53,25 +53,21 @@ function addItem(items = 1) {
 }
 
 function recountItems() {
-    $(".item-group")
+    $('.item-group').each((i, item) => {
+        const forms = $(item).find('input, textarea');
+        forms.each((j, form) => {
+            form["name"] = form["name"].replace(/[0-9]/g, i+1);
+        });
+    });
 }
 
-function delItem(itemName) {
-    console.log($(`[name=${itemName}]`));
+function delItem(targetItem) {
+    let del = confirm("🥺ARE YOU SURE🥺");
+    if (del) {
+        targetItem.remove();
+        itemCnt -= 1;
+    }
 }
-
-// get location dynamically via Google Direction API
-// function getLocation(destination) {
-//     const key = process.env.DIRECTIONS_API_KEY;
-//     const origin = process.env.ORIGIN;
-//     const URL = `https://maps.googleapis.com/maps/api/directions/json?key=${key}&
-//     origin=${origin}&destination=${destination}&
-//     mode=transit&transit_mode=subway&transit_routing_preference=less_walking`
-
-//     $.get(URL, (data) => {
-//         console.log(data['routes']);
-//     }, 'jsonp');
-// }
 
 // format post
 function generatePost(postObj = {}) {
@@ -260,48 +256,47 @@ $("#add-item").click(() => {
     itemCnt++;
 });
 
-// dealing with finger swipes
+// dealing with finger/mouse swipes
 let startX = 0;
 $(".items-group").on('touchstart', '.item-container', (e) => {
-    if (!$(e.target).is('input[type="radio"]')) {
+    if (!$(e.target).is('input')) {
         startX = e.touches[0].screenX;
     }
+    $(this).on('touchmove', (e) => {
+        const targetItem = $(e.target).closest(".item-container");
+        const swipeDispl = e.touches[0].screenX - startX;
+        const swipePct = (swipeDispl / screen.width) * 100;  // detect movement % of screen
+        if (swipePct < -10) {
+            targetItem.css("transform", `translateX(calc(-20% + 1rem))`);  // swipe left
+        } else if (swipePct > 10) {
+            targetItem.css("transform", `translateX(0)`);
+        }
+    });
+    $(this).on('touchend', () => $(this).unbind('touchmove'));  // end mousemove on touchend & touchcancel
+    $(this).on('touchcancel', () => $(this).unbind('touchmove'));
 });
-// $(".items-group").on('mousedown', '.item-container', (e) => {
-//     if (!$(e.target).is('input[type="radio"]')) {
-//         startX = e.screenX;
-//     }
-// });
-$(".items-group").on('touchmove', '.item-container', (e) => {
-    const targetItem = $(e.target).closest(".item-container");
-    const swipeDispl = e.touches[0].screenX - startX;
-    let swipePct = 0;
-    if (swipeDispl < 0) {
-        swipePct = Math.max((swipeDispl / screen.width) * 100, -20);
+
+$(".items-group").on('mousedown', '.item-container', (e) => {
+    if (!$(e.target).is('input')) {
+        startX = e.screenX;
     }
-    targetItem.css("transform", `translateX(calc(${swipePct}% + 1rem))`);
-});
-// $(".items-group").on('mousemove', '.item-container', (e) => {
-//     const targetItem = $(e.target).closest(".item-container");
-//     const swipeDispl = e.screenX - startX;
-//     let swipePct = 0;
-//     if (swipeDispl < 0) {   // swipe left
-//         swipePct = Math.max((swipeDispl / screen.width) * 100, -10);
-//     }   // else swipe right
-//     console.log(swipeDispl, swipePct);
-//     targetItem.css("transform", `translateX(${swipePct}%)`);
-// });
-$(".items-group").on('touchend', '.item-container', (e) => {
-    const targetItem = $(e.target).closest(".item-container");
-    const swipePct = parseInt(targetItem.css("transform").replace(/[^\d]/g, ""));
-    if (swipePct < -2) {
-        targetItem.css("transform", `translateX(calc(-20% + 1rem))`);
-    }
+    $(this).on('mousemove', (e) => {
+        const targetItem = $(e.target).closest(".item-container");
+        const swipeDispl = e.screenX - startX;
+        const swipePct = (swipeDispl / screen.width) * 100;
+        if (swipePct < -10) {   // swipe left
+            targetItem.css("transform", `translateX(calc(-20% + 1rem))`);
+        } else if (swipePct > 10) {
+            targetItem.css("transform", `translateX(0)`);
+        }
+    });
+    $(this).on('mouseup', () => $(this).unbind('mousemove'));
+    $(this).on('mouseout', () => $(this).unbind('mousemove'));
 });
 
 $(".items-group").on('click', '.del-item', (e) => {
-    const targetItem = $(e.target).closest("item-container");
-    console.log(targetItem);
+    const targetItem = $(e.target).closest(".item-container");
+    delItem(targetItem);
 });
 
 $("#preview-post").click(() => {
@@ -311,6 +306,7 @@ $("#preview-post").click(() => {
 });
 
 $("#save-post").click(() => {
+    recountItems();
     const [postObj, postContent] = generatePost();
     addPost(postObj);
     copyPost(postContent);
