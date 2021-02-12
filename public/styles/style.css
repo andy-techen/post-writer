@@ -127,14 +127,16 @@ img {
     display: flex;
     align-items: center;
     width: 120%;
+    transform: translateX(0%);
     transition: transform 0.5s ease-out;
 }
 .item-container .item-group {
-    width: 100%;
+    width: calc(100% - 3rem);
 }
 .item-container .del-div {
     display: flex;
-    width: 20%;
+    justify-content: center;
+    width: calc(20% - 2rem);
     margin: 0 1.5rem 0 0.5rem;
 }
 .input-group input, textarea {

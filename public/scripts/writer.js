@@ -261,20 +261,44 @@ $("#add-item").click(() => {
 });
 
 // dealing with finger swipes
+let startX = 0;
 $(".items-group").on('touchstart', '.item-container', (e) => {
     if (!$(e.target).is('input[type="radio"]')) {
-        let startX = e.touches[0].screenX;
+        startX = e.touches[0].screenX;
     }
 });
-
+// $(".items-group").on('mousedown', '.item-container', (e) => {
+//     if (!$(e.target).is('input[type="radio"]')) {
+//         startX = e.screenX;
+//     }
+// });
 $(".items-group").on('touchmove', '.item-container', (e) => {
     const targetItem = $(e.target).closest(".item-container");
     const swipeDispl = e.touches[0].screenX - startX;
     let swipePct = 0;
     if (swipeDispl < 0) {
-        swipePct = Math.min((swipeDispl / screen.width) * 100, 10);
+        swipePct = Math.max((swipeDispl / screen.width) * 100, -20);
     }
-    targetItem.css("transform", `translateX(${swipePct}%)`);
+    targetItem.css("transform", `translateX(calc(${swipePct}% + 1rem))`);
+});
+// $(".items-group").on('mousemove', '.item-container', (e) => {
+//     const targetItem = $(e.target).closest(".item-container");
+//     const swipeDispl = e.screenX - startX;
+//     let swipePct = 0;
+//     if (swipeDispl < 0) {   // swipe left
+//         swipePct = Math.max((swipeDispl / screen.width) * 100, -10);
+//     }   // else swipe right
+//     console.log(swipeDispl, swipePct);
+//     targetItem.css("transform", `translateX(${swipePct}%)`);
+// });
+$(".items-group").on('touchend', '.item-container', (e) => {
+    const targetItem = $(e.target).closest(".item-container");
+    const swipePct = parseInt(targetItem.css("transform").replace(/[^\d]/g, ""));
+    if (swipePct < -4) {
+        targetItem.css("transform", `translateX(calc(-20% + 1rem))`);
+    } else {
+        targetItem.css("transform", `translateX(0)`);
+    }
 });
 
 $(".items-group").on('click', '.del-item', (e) => {
