@@ -263,7 +263,7 @@ $(".items-group").on('touchstart', '.item-container', (e) => {
         startX = e.touches[0].screenX;
     }
     $(this).on('touchmove', (e) => {
-        e.preventDefault();
+        $('.modal-form').bind('touchmove', (e) => e.preventDefault());
         const targetItem = $(e.target).closest(".item-container");
         const swipeDispl = e.touches[0].screenX - startX;
         const swipePct = (swipeDispl / screen.width) * 100;  // detect movement % of screen
@@ -273,8 +273,14 @@ $(".items-group").on('touchstart', '.item-container', (e) => {
             targetItem.css("transform", `translateX(0)`);
         }
     });
-    $(this).on('touchend', () => $(this).unbind('touchmove'));  // end mousemove on touchend & touchcancel
-    $(this).on('touchcancel', () => $(this).unbind('touchmove'));
+    $(this).on('touchend', () => {
+        $(this).unbind('touchmove');
+        $('.modal-form').unbind('touchmove');
+    });  // end mousemove on touchend & touchcancel
+    $(this).on('touchcancel', () => {
+        $(this).unbind('touchmove');
+        $('.modal-form').unbind('touchmove');
+    });
 });
 
 $(".items-group").on('mousedown', '.item-container', (e) => {
@@ -282,7 +288,6 @@ $(".items-group").on('mousedown', '.item-container', (e) => {
         startX = e.screenX;
     }
     $(this).on('mousemove', (e) => {
-        e.preventDefault();
         const targetItem = $(e.target).closest(".item-container");
         const swipeDispl = e.screenX - startX;
         const swipePct = (swipeDispl / screen.width) * 100;
