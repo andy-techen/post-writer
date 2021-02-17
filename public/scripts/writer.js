@@ -186,13 +186,16 @@ function resetPost() {
 // load in post content when clicked
 function loadPost(postId) {
     const postObj = getPost(postId);
-    const itemKeys = Object.keys(postObj)
-        .filter((k) => k.startsWith("item"))
-        .map(k => parseInt(k.match(/[0-9 ]/)));  // extract item index
 
-    const items = Math.max(...itemKeys);
-    addItem(items);
-    itemCnt = items + 1;
+    if (Object.keys(postObj).some((k) => k.startsWith("item"))) {
+        const itemKeys = Object.keys(postObj)
+            .filter((k) => k.startsWith("item"))
+            .map(k => parseInt(k.match(/[0-9 ]/)));  // extract item index
+
+        const items = Math.max(...itemKeys);
+        addItem(items);
+        itemCnt = items + 1;
+    }
 
     $.each(postObj, (k, v) => {
         if (k.includes("toggle")) {
